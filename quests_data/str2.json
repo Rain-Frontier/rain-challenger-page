@@ -1,0 +1,30 @@
+{
+  "quest_id": "str2",
+  "quest_type": "<<Interception>>",
+  "quest_name": "Seperate Their Ranks 2",
+  "img_url": "assets/quest_imgs/str2.png",
+  "weapons": {
+    "gs": "9:49.XX",
+    "ds": "6:49.XX",
+    "sns": "6:49.XX",
+    "hh": "8:59.XX",
+    "lan": "8:14.XX",
+    "hbg": "16:59.XX"
+  },
+  "restrictions": {
+    "general": [
+      "Partnya only allowed for gunners"
+    ],
+    "allowed_weapons": [
+      "GR Weapon (Exotic, Gou/Supremacy allowed)"
+    ],
+    "allowed_armor": [
+      "GR Armor (Exotic, Gou/Supremacy allowed)",
+      "G cuff only"
+    ],
+    "banned_skills": [
+      "Hiden/Tech",
+      "Solid Determination"
+    ]
+  }
+}

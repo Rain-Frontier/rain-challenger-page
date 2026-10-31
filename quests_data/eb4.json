@@ -1,0 +1,28 @@
+{
+  "quest_id": "eb4",
+  "quest_type": "<<Interception>>",
+  "quest_name": "Elite Battle 4",
+  "img_url": "assets/quest_imgs/eb4.png",
+  "weapons": {
+    "gs": "16:29.XX",
+    "ds": "12:29.XX",
+    "ham": "17:29.XX",
+    "saf": "14:49.XX",
+    "ms": "10:14.XX",
+    "bow": "16:29.XX"
+  },
+  "restrictions": {
+    "general": [
+      "Partnya only allowed for gunners",
+      "No Z sigil"
+    ],
+    "allowed_weapons": [
+      "Zenith (Premium allowd, Netcafe not allowed)"
+    ],
+    "allowed_armor": [],
+    "banned_skills": [
+      "Hiden/Tech",
+      "Solid Determination"
+    ]
+  }
+}
