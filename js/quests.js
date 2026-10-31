@@ -36,10 +36,33 @@ async function loadQuests() {
 }
 
 function createQuestCard(quest) {
+
   const card = document.createElement('div');
   card.className = 'quest-card';
   card.innerHTML = `
-    <h1> ${quest.quest_name} </h1>
+    <div class="quest-header">
+      <img src="${quest.img_url}" alt="${quest.quest_name}" class="quest-image">
+      <h5>Time Limits</h5>
+      <div class="time-limits">
+        ${renderTimeLimits(quest)}
+      </div>
+    </div>
   `
   return card
 }
+
+function renderTimeLimits(quest) {
+  const weapons = [...Object.keys(quest.weapons)];
+  console.debug(weapons)
+  const iconPath = "./assets/weapon_icons";
+  htmlArray = weapons.map(weapon => {
+    return `<div class='weapon-time-limit'>
+        <img src="${iconPath}/${weapon}.svg" alt="${weapon}">
+        <p>${quest.weapons[weapon]}</p>
+      </div>`
+  }).join("");
+
+  console.debug(htmlArray)
+  return htmlArray;
+}
+

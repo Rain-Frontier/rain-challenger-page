@@ -1,8 +1,8 @@
 {
-  "quest_id": "SD8",
+  "quest_id": "sd8",
   "quest_type": "<<Interception>>",
   "quest_name": "Struggling Duel 8",
-  "img_url": "assets/quest_imgs/SD8.png",
+  "img_url": "assets/quest_imgs/sd8.png",
   "weapons": {
     "ls": "13:49.XX",
     "gs": "14:49.XX",

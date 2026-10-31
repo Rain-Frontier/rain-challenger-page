@@ -1,0 +1,22 @@
+#quest-container {
+  width: 100%;
+  display: flex;
+  gap: 15px;
+}
+
+.quest-image {
+  max-width: 100%;
+  height: auto;
+}
+
+.time-limits {
+  width: 100%;
+  display: flex;
+  gap: 2%;
+  border-radius: 20px;
+  border: solid black;
+}
+
+.weapon-time-limit {
+  width: 100%;
+}
