@@ -1,0 +1,6 @@
+@import url('./rules.css');
+@import url('./quests.css');
+
+h1 {
+  text-align: center
+}
