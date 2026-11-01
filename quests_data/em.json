@@ -1,0 +1,52 @@
+{
+  "quest_id": "em",
+  "quest_type": "<<Interception>>",
+  "quest_name": "Exotic Madness",
+  "img_url": "assets/quest_imgs/em.webp",
+  "time_limits": {
+    "ds": "10:34.XX",
+    "sns": "10:34.XX",
+    "hh": "21:44.XX",
+    "lan": "13:24.XX",
+    "hbg": "19:14.XX",
+    "bow": "17:44.XX"
+  },
+  "restrictions": {
+    "general": [
+      {
+        "tag": "partial",
+        "restriction": "Partnya only allowed for gunners"
+      },
+      {
+        "tag": "banned",
+        "restriction": "Z sigil not allowed"
+      }
+    ],
+    "weapon": [
+      {
+        "tag": "allowed",
+        "restriction": "Zenith allowed"
+      },
+      {
+        "tag": "banned",
+        "restriction": "Premium/Prayer/Evo/Tower not allowed"
+      }
+    ],
+    "armor": [
+      {
+        "tag": "allowed",
+        "restriction": "GR Armor (Exotic, Gou/Supremacy allowed)"
+      },
+      {
+        "tag": "allowed",
+        "restriction": "G cuff only"
+      }
+    ],
+    "skills": [
+      {
+        "tag": "banned",
+        "restriction": "Hiden/Tech not allowed"
+      }
+    ]
+  }
+}

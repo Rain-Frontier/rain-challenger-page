@@ -1,8 +1,33 @@
 const QUEST_FILES = [
   'sd8.json',
   'str2.json',
-  'eb4.json'
+  'eb4.json',
+  'psc4.json',
+  'em.json',
+  'durem.json',
+  'str4.json',
+  'bf.json',
+  'gst.json',
+  'nsc2.json',
+  'ab4.json',
 ]
+
+const WEAPON_NAMES = {
+  gs: "Great Sword",
+  ls: "Long Sword",
+  sns: "Sword and Shield",
+  ds: "Dual Swords",
+  ham: "Hammer",
+  hh: "Hunting Horn",
+  lan: "Lance",
+  gl: "Gunlance",
+  ton: "Tonfa",
+  saf: "Switch Axe F",
+  ms: "Magnet Spike",
+  lbg: "Light Bowgun",
+  hbg: "Heavy Bowgun",
+  bow: "Bow"
+}
 
 document.addEventListener('DOMContentLoaded', loadQuests)
 
@@ -35,34 +60,73 @@ async function loadQuests() {
   })
 }
 
-function createQuestCard(quest) {
+// Text from the JSON goes through this so values like "<<Interception>>" aren't parsed as HTML tags
+function escapeHTML(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
 
-  const card = document.createElement('div');
+function createQuestCard(quest) {
+  const card = document.createElement('article');
   card.className = 'quest-card';
+  const weaponCount = Object.keys(quest.time_limits).length;
   card.innerHTML = `
     <div class="quest-header">
-      <img src="${quest.img_url}" alt="${quest.quest_name}" class="quest-image">
-      <h5>Time Limits</h5>
-      <div class="time-limits">
+      <img src="${quest.img_url}" alt="${escapeHTML(quest.quest_name)}" class="quest-image">
+      <div class="quest-title">
+        <p class="quest-type">${escapeHTML(quest.quest_type)}</p>
+        <h2 class="quest-name">${escapeHTML(quest.quest_name)}</h2>
+      </div>
+    </div>
+    <div class="quest-body">
+      <h3>Time Limits</h3>
+      <div class="time-limits" style="--weapons: ${weaponCount}; --half: ${Math.ceil(weaponCount / 2)}">
         ${renderTimeLimits(quest)}
       </div>
+
+      ${renderRestrictions(quest.restrictions)}
     </div>
   `
   return card
 }
 
 function renderTimeLimits(quest) {
-  const weapons = [...Object.keys(quest.weapons)];
-  console.debug(weapons)
   const iconPath = "./assets/weapon_icons";
-  htmlArray = weapons.map(weapon => {
-    return `<div class='weapon-time-limit'>
-        <img src="${iconPath}/${weapon}.svg" alt="${weapon}">
-        <p>${quest.weapons[weapon]}</p>
+  return Object.entries(quest.time_limits).map(([weapon, time]) => {
+    const name = WEAPON_NAMES[weapon] ?? weapon;
+    return `<div class="weapon-time-limit" title="${name}">
+        <img src="${iconPath}/${weapon}.svg" alt="${name}">
+        <p>${escapeHTML(time)}</p>
       </div>`
   }).join("");
-
-  console.debug(htmlArray)
-  return htmlArray;
 }
 
+// Empty or missing lists are left out entirely
+function renderRestrictions(restrictions = {}) {
+  const general = renderRestrictionList("General", restrictions.general);
+  const columns = [
+    renderRestrictionList("Weapons", restrictions.weapon),
+    renderRestrictionList("Armor", restrictions.armor),
+    renderRestrictionList("Banned Skills", restrictions.skills)
+  ].join("");
+
+  if (!general && !columns) {
+    return "";
+  }
+  return `
+    <h3>Restrictions</h3>
+    ${general}
+    ${columns ? `<div class="restriction-columns">${columns}</div>` : ""}
+  `
+}
+
+function renderRestrictionList(title, items = []) {
+  if (items.length === 0) {
+    return "";
+  }
+  return `<div class="restriction">
+      <h4>${title}</h4>
+      <ul>${items.map(item => `<li>${escapeHTML(item)}</li>`).join("")}</ul>
+    </div>`
+}

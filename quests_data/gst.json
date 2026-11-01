@@ -1,0 +1,47 @@
+{
+  "quest_id": "gst",
+  "quest_type": "<<Interception>>",
+  "quest_name": "Golden Sparkling Thunder",
+  "img_url": "assets/quest_imgs/gst.webp",
+  "time_limits": {
+    "ls": "5:44.XX",
+    "lan": "7:14.XX",
+    "hh": "7:24.XX",
+    "gl": "5:44.XX",
+    "saf": "4:09.XX",
+    "hbg": "8:44.XX"
+  },
+  "restrictions": {
+    "general": [],
+    "weapon": [
+      {
+        "tag": "allowed",
+        "restriction": "GR Weapon (Exotic, Gou/Supremacy allowed)"
+      },
+      {
+        "tag": "banned",
+        "restriction": "Premium/Evo/Prayer not allowed"
+      }
+    ],
+    "armor": [
+      {
+        "tag": "allowed",
+        "restriction": "GR Armor (Exotic, Gou/Supremacy allowed)"
+      },
+      {
+        "tag": "allowed",
+        "restriction": "G cuff only"
+      }
+    ],
+    "skills": [
+      {
+        "tag": "banned",
+        "restriction": "Hiden/Tech not allowed"
+      },
+      {
+        "tag": "banned",
+        "restriction": "Solid Determination not allowed"
+      }
+    ]
+  }
+}

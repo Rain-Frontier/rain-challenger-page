@@ -1,6 +1,58 @@
 @import url('./rules.css');
 @import url('./quests.css');
 
+:root {
+  --bg: #121318;
+  --surface: #1c1e26;
+  --surface-2: #252833;
+  --border: #2f3340;
+  --text: #e6e6eb;
+  --text-muted: #9a9cab;
+  --accent: #e0457b;
+  --radius: 12px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.5;
+}
+
+a {
+  color: var(--accent);
+}
+
+.navbar {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  padding: 1rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.navbar a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.navbar a:hover {
+  color: var(--text);
+}
+
+main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
 h1 {
   text-align: center
 }

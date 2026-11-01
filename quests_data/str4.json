@@ -1,0 +1,52 @@
+{
+  "quest_id": "str4",
+  "quest_type": "<<Interception>>",
+  "quest_name": "Separate Their Ranks 4",
+  "img_url": "assets/quest_imgs/str4.webp",
+  "time_limits": {
+    "gs": "11:14.XX",
+    "sns": "9:44.XX",
+    "hh": "12:24.XX",
+    "gl": "12:34.XX",
+    "ls": "10:24.XX",
+    "bow": "13:04.XX"
+  },
+  "restrictions": {
+    "general": [
+      {
+        "tag": "partial",
+        "restriction": "Partnya only allowed for gunners"
+      }
+    ],
+    "weapon": [
+      {
+        "tag": "allowed",
+        "restriction": "GR Weapon (Exotic, Gou/Supremacy allowed)"
+      },
+      {
+        "tag": "banned",
+        "restriction": "Premium/Evo/Prayer not allowed"
+      }
+    ],
+    "armor": [
+      {
+        "tag": "allowed",
+        "restriction": "GR armor (Exotic, Gou/Supremacy allowed)"
+      },
+      {
+        "tag": "allowed",
+        "restriction": "G cuff only"
+      }
+    ],
+    "skills": [
+      {
+        "tag": "banned",
+        "restriction": "Hiden/Tech not allowed"
+      },
+      {
+        "tag": "banned",
+        "restriction": "Solid Determination not allowed"
+      }
+    ]
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "quest_id": "nsc2",
+  "quest_type": "<<Interception>>",
+  "quest_name": "Negative Song-Charge 2",
+  "img_url": "assets/quest_imgs/nsc2.webp",
+  "time_limits": {
+    "gs": "6:24.XX",
+    "ds": "6:34.XX",
+    "hh": "17:24.XX",
+    "lan": "10:44.XX",
+    "saf": "8:04.XX",
+    "bow": "6:34.XX"
+  },
+  "restrictions": {
+    "general": [
+      {
+        "tag": "partial",
+        "restriction": "Partnya only allowed for gunners"
+      }
+    ],
+    "weapon": [
+      {
+        "tag": "allowed",
+        "restriction": "Zenith weapon allowed"
+      }
+    ],
+    "armor": [
+      {
+        "tag": "allowed",
+        "restriction": "Any"
+      }
+    ],
+    "skills": []
+  }
+}

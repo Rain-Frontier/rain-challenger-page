@@ -2,27 +2,59 @@
   "quest_id": "eb4",
   "quest_type": "<<Interception>>",
   "quest_name": "Elite Battle 4",
-  "img_url": "assets/quest_imgs/eb4.png",
-  "weapons": {
-    "gs": "16:29.XX",
-    "ds": "12:29.XX",
-    "ham": "17:29.XX",
-    "saf": "14:49.XX",
-    "ms": "10:14.XX",
-    "bow": "16:29.XX"
+  "img_url": "assets/quest_imgs/eb4.webp",
+  "time_limits": {
+    "gs": "16:14.XX",
+    "ds": "12:14.XX",
+    "ham": "17:14.XX",
+    "saf": "14:34.XX",
+    "ms": "10:04.XX",
+    "bow": "16:14.XX"
   },
   "restrictions": {
     "general": [
-      "Partnya only allowed for gunners",
-      "No Z sigil"
+      {
+        "tag": "partial",
+        "restriction": "Partnya only allowed for gunners"
+      },
+      {
+        "tag": "banned",
+        "restriction": "Z sigil not allowed"
+      }
     ],
-    "allowed_weapons": [
-      "Zenith (Premium allowd, Netcafe not allowed)"
+    "weapon": [
+      {
+        "tag": "allowed",
+        "restriction": "Zenith (Premium allowed)"
+      },
+      {
+        "tag": "banned",
+        "restriction": "Evo/Tower/Netcafe not allowed"
+      },
+      {
+        "tag": "banned",
+        "restriction": "Prayer not allowed"
+      },
+      {
+        "tag": "banned",
+        "restriction": "Poison MS not allowed"
+      }
     ],
-    "allowed_armor": [],
-    "banned_skills": [
-      "Hiden/Tech",
-      "Solid Determination"
+    "armor": [
+      {
+        "tag": "allowed",
+        "restriction": "Any"
+      }
+    ],
+    "skills": [
+      {
+        "tag": "banned",
+        "restriction": "Hiden/Tech not allowed"
+      },
+      {
+        "tag": "banned",
+        "restriction": "Solid Determination not allowed"
+      }
     ]
   }
 }

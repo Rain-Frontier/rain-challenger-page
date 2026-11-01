@@ -2,29 +2,51 @@
   "quest_id": "sd8",
   "quest_type": "<<Interception>>",
   "quest_name": "Struggling Duel 8",
-  "img_url": "assets/quest_imgs/sd8.png",
-  "weapons": {
-    "ls": "13:49.XX",
-    "gs": "14:49.XX",
-    "sns": "11:49.XX",
-    "ham": "11:49.XX",
-    "gl": "11:29.XX",
-    "lbg": "11:59.XX"
+  "img_url": "assets/quest_imgs/sd8.webp",
+  "time_limits": {
+    "ls": "13:14.XX",
+    "gs": "14:34.XX",
+    "sns": "11:34.XX",
+    "ham": "11:34.XX",
+    "gl": "11:14.XX",
+    "lbg": "11:44.XX"
   },
   "restrictions": {
     "general": [
-      "Partnya only allowed for gunners"
+      {
+        "tag": "partial",
+        "restriction": "Partnya only allowed for gunners"
+      }
     ],
-    "allowed_weapons": [
-      "GR Weapon (Exotic, Gou/Supremacy allowed)"
+    "weapon": [
+      {
+        "tag": "allowed",
+        "restriction": "GR Weapon (Exotic, Gou/Supremacy allowed)"
+      },
+      {
+        "tag": "banned",
+        "restriction": "Premium and Prayer not allowed"
+      }
     ],
-    "allowed_armor": [
-      "GR Armor (Exotic, Gou/Supremacy allowed)",
-      "G cuff only"
+    "armor": [
+      {
+        "tag": "allowed",
+        "restriction": "GR Armor (Exotic, Gou/Supremacy allowed)"
+      },
+      {
+        "tag": "allowed",
+        "restriction": "G cuff only"
+      }
     ],
-    "banned_skills": [
-      "Hiden/Tech",
-      "Solid Determination"
+    "skills": [
+      {
+        "tag": "banned",
+        "restriction": "Hiden/Tech not allowed"
+      },
+      {
+        "tag": "banned",
+        "restriction": "Solid Determination not allowed"
+      }
     ]
   }
 }

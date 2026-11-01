@@ -1,0 +1,47 @@
+{
+  "quest_id": "bf",
+  "quest_type": "<<Interception>>",
+  "quest_name": "Burning Frost",
+  "img_url": "assets/quest_imgs/bf.webp",
+  "time_limits": {
+    "ls": "15:24.XX",
+    "gs": "12:44.XX",
+    "sns": "12:34.XX",
+    "ham": "15:34.XX",
+    "gl": "19:44.XX",
+    "lbg": "12:14.XX"
+  },
+  "restrictions": {
+    "general": [],
+    "weapon": [
+      {
+        "tag": "allowed",
+        "restriction": "GR Weapon (Exotic, Gou/Supremacy allowed)"
+      },
+      {
+        "tag": "banned",
+        "restriction": "Premium/Evo/Prayer not allowed"
+      }
+    ],
+    "armor": [
+      {
+        "tag": "allowed",
+        "restriction": "GR armor (Exotic, Gou/Supremacy allowed)"
+      },
+      {
+        "tag": "allowed",
+        "restriction": "G cuff only"
+      }
+    ],
+    "skills": [
+      {
+        "tag": "banned",
+        "restriction": "Hiden/Tech not allowed"
+      },
+      {
+        "tag": "banned",
+        "restriction": "Solid Determination not allowed"
+      }
+    ]
+  }
+}
