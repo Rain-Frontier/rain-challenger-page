@@ -108,7 +108,7 @@ function renderRestrictions(restrictions = {}) {
   const columns = [
     renderRestrictionList("Weapons", restrictions.weapon),
     renderRestrictionList("Armor", restrictions.armor),
-    renderRestrictionList("Banned Skills", restrictions.skills)
+    renderRestrictionList("Skills", restrictions.skills)
   ].join("");
 
   if (!general && !columns) {
@@ -121,12 +121,19 @@ function renderRestrictions(restrictions = {}) {
   `
 }
 
+// Tags that have a dot color in quests.css; anything else gets the default dot
+const RESTRICTION_TAGS = ["allowed", "partial", "banned"];
+
 function renderRestrictionList(title, items = []) {
   if (items.length === 0) {
     return "";
   }
+  const listItems = items.map(item => {
+    const tagClass = RESTRICTION_TAGS.includes(item.tag) ? `tag-${item.tag}` : "";
+    return `<li class="${tagClass}">${escapeHTML(item.restriction)}</li>`
+  }).join("");
   return `<div class="restriction">
       <h4>${title}</h4>
-      <ul>${items.map(item => `<li>${escapeHTML(item)}</li>`).join("")}</ul>
+      <ul>${listItems}</ul>
     </div>`
 }

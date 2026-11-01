@@ -138,3 +138,19 @@
 .restriction li + li {
   margin-top: 0.2rem;
 }
+
+.restriction li::marker {
+  font-size: 1.2em;
+}
+
+.restriction li.tag-allowed::marker {
+  color: var(--tag-allowed);
+}
+
+.restriction li.tag-partial::marker {
+  color: var(--tag-partial);
+}
+
+.restriction li.tag-banned::marker {
+  color: var(--tag-banned);
+}

@@ -22,7 +22,7 @@
         "restriction": "Z sigil not allowed"
       }
     ],
-    "allowed_weapons": [
+    "weapon": [
       {
         "tag": "allowed",
         "restriction": "Zenith"
@@ -32,13 +32,13 @@
         "restriction": "Premium/Evo/Prayer not allowed"
       }
     ],
-    "allowed_armor": [
+    "armor": [
       {
         "tag": "allowed",
         "restriction": "Any"
       }
     ],
-    "banned_skills": [
+    "skills": [
       {
         "tag": "banned",
         "restriction": "Hiden/Tech not allowed"
