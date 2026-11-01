@@ -13,6 +13,10 @@
   --tag-partial: #f0a030;
   --tag-banned: #f05252;
   --radius: 12px;
+
+  /* Page background: raise --bg-brightness to make it brighter, lower --bg-blur to make it sharper */
+  --bg-brightness: 0.4;
+  --bg-blur: 6px;
 }
 
 * {
@@ -27,6 +31,17 @@ body {
   line-height: 1.5;
 }
 
+/* Blurred, dimmed background image behind every page. It's slightly larger than
+   the screen so the blur doesn't leave light edges. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: calc(var(--bg-blur) * -3);
+  z-index: -1;
+  background: url("../assets/background.webp") center / cover no-repeat;
+  filter: blur(var(--bg-blur)) brightness(var(--bg-brightness));
+}
+
 a {
   color: var(--accent);
 }
@@ -36,7 +51,8 @@ a {
   justify-content: center;
   gap: 2rem;
   padding: 1rem;
-  background: var(--surface);
+  background: rgba(18, 19, 24, 0.75);
+  backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--border);
 }
 
@@ -57,5 +73,6 @@ main {
 }
 
 h1 {
-  text-align: center
+  text-align: center;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
 }
