@@ -18,36 +18,14 @@
   border-bottom: 2px solid rgba(110, 75, 35, 0.35);
 }
 
-.panel p {
-  margin: 0;
-}
-
-/* The text sits on dark leather boxes (like the quest restrictions) for better contrast */
-.home-intro p,
+.panel p,
 .panel ul {
   margin: 0;
-  color: var(--parchment);
-  background: var(--leather);
-  border-radius: 8px;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
-}
-
-.home-intro p {
   padding: 0.9rem 1.1rem;
 }
 
 .panel ul {
-  padding: 0.9rem 1.1rem 0.9rem 2.2rem;
-}
-
-.home-intro p a,
-.panel ul a {
-  color: #e3b260;
-}
-
-.home-intro p a:hover,
-.panel ul a:hover {
-  color: #f2cd8a;
+  padding-left: 2.2rem;
 }
 
 .panel li + li {
@@ -61,7 +39,7 @@
 /* Rewards stand out with the gold accent used for the quest type */
 .home-rewards li::marker {
   content: "★  ";
-  color: #e3b260;
+  color: var(--gold);
 }
 
 /* "Read the quest rules" reminder at the bottom of the rules */
@@ -70,7 +48,6 @@
   padding: 0.6rem 0.9rem;
   color: #f6e7c8;
   background: #5e2617;
-  border-left: 4px solid #e3b260;
+  border-left: 4px solid var(--gold);
   border-radius: 6px;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
 }

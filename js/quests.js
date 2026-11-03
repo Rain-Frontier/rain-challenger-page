@@ -29,9 +29,13 @@ const WEAPON_NAMES = {
   bow: "Bow"
 }
 
-document.addEventListener('DOMContentLoaded', loadQuests)
+// Tags that have a dot color in quests.css; anything else gets the default dot
+const RESTRICTION_TAGS = ["allowed", "partial", "banned"];
 
 const basePath = "./quests_data/";
+const iconPath = "./assets/weapon_icons/";
+
+document.addEventListener('DOMContentLoaded', loadQuests)
 
 async function loadQuest(filename) {
   try {
@@ -51,14 +55,18 @@ const PROGRESS_KEY = "rain-challenger-progress";
 
 function loadProgress() {
   try {
-    return JSON.parse(localStorage.getItem(PROGRESS_KEY)) ?? {};
+    const stored = JSON.parse(localStorage.getItem(PROGRESS_KEY));
+    // Keep only well-formed entries so edited or corrupted data can't break the page
+    return Object.fromEntries(
+      Object.entries(stored ?? {}).filter(([, weapons]) => Array.isArray(weapons))
+    );
   } catch {
     // Storage blocked or data corrupted: start with nothing completed
     return {};
   }
 }
 
-function saveProgress(progress) {
+function saveProgress() {
   try {
     localStorage.setItem(PROGRESS_KEY, JSON.stringify(progress));
   } catch {
@@ -73,10 +81,9 @@ function isCompleted(questId, weapon) {
 }
 
 function toggleCompleted(questId, weapon) {
-  const completed = new Set(progress[questId] ?? []);
-  if (completed.has(weapon)) {
-    completed.delete(weapon);
-  } else {
+  const completed = new Set(progress[questId]);
+  const done = !completed.delete(weapon);
+  if (done) {
     completed.add(weapon);
   }
 
@@ -85,48 +92,45 @@ function toggleCompleted(questId, weapon) {
   } else {
     progress[questId] = [...completed];
   }
-  saveProgress(progress);
-  return completed.has(weapon);
+  saveProgress();
+  return done;
 }
 
 async function loadQuests() {
-  // Load the quests
   const quests = await Promise.all(QUEST_FILES.map(loadQuest));
-  const validQuests = quests.filter(quest => quest !== null);
-  console.log("Loaded quests:", validQuests);
 
-  // Render the quests
   const container = document.getElementById('quest-container');
-  validQuests.forEach(quest => {
-    const questCard = createQuestCard(quest);
-    container.appendChild(questCard);
-  })
+  quests
+    .filter(quest => quest !== null)
+    .forEach(quest => container.appendChild(createQuestCard(quest)));
 
   // One listener for all time limit buttons
   container.addEventListener('click', event => {
     const button = event.target.closest('.weapon-time-limit');
-    if (!button) {
-      return;
+    if (button) {
+      const done = toggleCompleted(button.dataset.quest, button.dataset.weapon);
+      button.setAttribute('aria-pressed', done);
     }
-    const done = toggleCompleted(button.dataset.quest, button.dataset.weapon);
-    button.setAttribute('aria-pressed', done);
   })
 }
 
-// Text from the JSON goes through this so values like "<<Interception>>" aren't parsed as HTML tags
+// Everything from the JSON goes through this before it is put into HTML, so values like
+// "<<Interception>>" aren't parsed as tags and quotes can't break out of attributes
 function escapeHTML(text) {
-  const div = document.createElement('div');
-  div.textContent = text;
-  return div.innerHTML;
+  return String(text)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
 }
 
 function createQuestCard(quest) {
   const card = document.createElement('article');
   card.className = 'quest-card parchment';
-  const weaponCount = Object.keys(quest.time_limits).length;
   card.innerHTML = `
     <div class="quest-header">
-      <img src="${quest.img_url}" alt="${escapeHTML(quest.quest_name)}" class="quest-image">
+      <img src="${escapeHTML(quest.img_url)}" alt="${escapeHTML(quest.quest_name)}" class="quest-image">
       <div class="quest-title">
         <p class="quest-type">${escapeHTML(quest.quest_type)}</p>
         <h2 class="quest-name">${escapeHTML(quest.quest_name)}</h2>
@@ -134,25 +138,30 @@ function createQuestCard(quest) {
     </div>
     <div class="quest-body">
       <h3>Time Limits</h3>
-      <div class="time-limits" style="--weapons: ${weaponCount}; --half: ${Math.ceil(weaponCount / 2)}">
+      <div class="time-limits">
         ${renderTimeLimits(quest)}
       </div>
 
       ${renderRestrictions(quest.restrictions)}
     </div>
   `
+
+  // Set via JS rather than a style="" attribute, which the page's Content Security Policy blocks
+  const weaponCount = Object.keys(quest.time_limits).length;
+  const timeLimits = card.querySelector('.time-limits');
+  timeLimits.style.setProperty('--weapons', weaponCount);
+  timeLimits.style.setProperty('--half', Math.ceil(weaponCount / 2));
   return card
 }
 
 function renderTimeLimits(quest) {
-  const iconPath = "./assets/weapon_icons";
   return Object.entries(quest.time_limits).map(([weapon, time]) => {
-    const name = WEAPON_NAMES[weapon] ?? weapon;
-    return `<button type="button" class="weapon-time-limit"
+    const name = escapeHTML(WEAPON_NAMES[weapon] ?? weapon);
+    return `<button type="button" class="weapon-time-limit leather"
         data-quest="${escapeHTML(quest.quest_id)}" data-weapon="${escapeHTML(weapon)}"
         aria-pressed="${isCompleted(quest.quest_id, weapon)}"
         title="${name}: click to mark as achieved">
-        <img src="${iconPath}/${weapon}.svg" alt="${name}">
+        <img src="${iconPath}${escapeHTML(weapon)}.svg" alt="${name}">
         <span class="time">${escapeHTML(time)}</span>
       </button>`
   }).join("");
@@ -172,12 +181,9 @@ function renderRestrictions(restrictions = {}) {
   }
   return `
     <h3>Restrictions</h3>
-    <div class="restrictions">${rows}</div>
+    <div class="restrictions leather">${rows}</div>
   `
 }
-
-// Tags that have a dot color in quests.css; anything else gets the default dot
-const RESTRICTION_TAGS = ["allowed", "partial", "banned"];
 
 function renderRestrictionList(title, items = []) {
   if (items.length === 0) {
