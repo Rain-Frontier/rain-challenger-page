@@ -122,7 +122,7 @@ function escapeHTML(text) {
 
 function createQuestCard(quest) {
   const card = document.createElement('article');
-  card.className = 'quest-card';
+  card.className = 'quest-card parchment';
   const weaponCount = Object.keys(quest.time_limits).length;
   card.innerHTML = `
     <div class="quest-header">
