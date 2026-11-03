@@ -104,20 +104,19 @@ function renderTimeLimits(quest) {
 
 // Empty or missing lists are left out entirely
 function renderRestrictions(restrictions = {}) {
-  const general = renderRestrictionList("General", restrictions.general);
-  const columns = [
+  const rows = [
+    renderRestrictionList("General", restrictions.general),
     renderRestrictionList("Weapons", restrictions.weapon),
     renderRestrictionList("Armor", restrictions.armor),
     renderRestrictionList("Skills", restrictions.skills)
   ].join("");
 
-  if (!general && !columns) {
+  if (!rows) {
     return "";
   }
   return `
     <h3>Restrictions</h3>
-    ${general}
-    ${columns ? `<div class="restriction-columns">${columns}</div>` : ""}
+    <div class="restrictions">${rows}</div>
   `
 }
 
