@@ -46,6 +46,49 @@ async function loadQuest(filename) {
   }
 }
 
+// Completed time limits are stored in this browser only, as { quest_id: [weapon, ...] }
+const PROGRESS_KEY = "rain-challenger-progress";
+
+function loadProgress() {
+  try {
+    return JSON.parse(localStorage.getItem(PROGRESS_KEY)) ?? {};
+  } catch {
+    // Storage blocked or data corrupted: start with nothing completed
+    return {};
+  }
+}
+
+function saveProgress(progress) {
+  try {
+    localStorage.setItem(PROGRESS_KEY, JSON.stringify(progress));
+  } catch {
+    // Storage blocked (e.g. some private modes): marks just won't persist
+  }
+}
+
+const progress = loadProgress();
+
+function isCompleted(questId, weapon) {
+  return progress[questId]?.includes(weapon) ?? false;
+}
+
+function toggleCompleted(questId, weapon) {
+  const completed = new Set(progress[questId] ?? []);
+  if (completed.has(weapon)) {
+    completed.delete(weapon);
+  } else {
+    completed.add(weapon);
+  }
+
+  if (completed.size === 0) {
+    delete progress[questId];
+  } else {
+    progress[questId] = [...completed];
+  }
+  saveProgress(progress);
+  return completed.has(weapon);
+}
+
 async function loadQuests() {
   // Load the quests
   const quests = await Promise.all(QUEST_FILES.map(loadQuest));
@@ -57,6 +100,16 @@ async function loadQuests() {
   validQuests.forEach(quest => {
     const questCard = createQuestCard(quest);
     container.appendChild(questCard);
+  })
+
+  // One listener for all time limit buttons
+  container.addEventListener('click', event => {
+    const button = event.target.closest('.weapon-time-limit');
+    if (!button) {
+      return;
+    }
+    const done = toggleCompleted(button.dataset.quest, button.dataset.weapon);
+    button.setAttribute('aria-pressed', done);
   })
 }
 
@@ -95,10 +148,13 @@ function renderTimeLimits(quest) {
   const iconPath = "./assets/weapon_icons";
   return Object.entries(quest.time_limits).map(([weapon, time]) => {
     const name = WEAPON_NAMES[weapon] ?? weapon;
-    return `<div class="weapon-time-limit" title="${name}">
+    return `<button type="button" class="weapon-time-limit"
+        data-quest="${escapeHTML(quest.quest_id)}" data-weapon="${escapeHTML(weapon)}"
+        aria-pressed="${isCompleted(quest.quest_id, weapon)}"
+        title="${name}: click to mark as achieved">
         <img src="${iconPath}/${weapon}.svg" alt="${name}">
-        <p>${escapeHTML(time)}</p>
-      </div>`
+        <span class="time">${escapeHTML(time)}</span>
+      </button>`
   }).join("");
 }
 
