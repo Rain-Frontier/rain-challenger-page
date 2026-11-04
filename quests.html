@@ -4,20 +4,39 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Dark page: the browser paints a dark (not white) canvas while switching pages, before the CSS loads -->
+  <meta name="color-scheme" content="dark">
   <meta http-equiv="Content-Security-Policy"
     content="default-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'">
-  <title>Rain Challenger Quests</title>
+  <title data-i18n="quests.docTitle">Rain Challenger Quests</title>
   <link rel="stylesheet" href="./css/style.css">
   <link rel="icon" href="./assets/favicon.ico" type="image/x-icon">
+  <script src="./js/i18n.js" defer></script>
+  <script src="./js/nav.js" defer></script>
 </head>
 
 <body>
   <nav class="navbar">
-    <a href="./index.html">Home</a>
-    <a href="./quests.html">Quests</a>
+    <div class="nav-links">
+      <a href="./index.html" data-i18n="nav.home">Home</a>
+      <a href="./quests.html" data-i18n="nav.quests">Quests</a>
+    </div>
+    <div class="lang-switcher">
+      <button type="button" class="lang-button" aria-haspopup="true" aria-expanded="false" aria-controls="lang-menu">
+        <img src="./assets/index/www.png" alt="" class="lang-icon">
+        <span class="lang-current">English</span>
+      </button>
+      <ul class="lang-menu" id="lang-menu" hidden>
+        <li><button type="button" lang="en" data-lang="en">English</button></li>
+        <li><button type="button" lang="ja" data-lang="ja">日本語</button></li>
+        <li><button type="button" lang="fr" data-lang="fr">Français</button></li>
+        <li><button type="button" lang="de" data-lang="de">Deutsch</button></li>
+        <li><button type="button" lang="es" data-lang="es">Español</button></li>
+      </ul>
+    </div>
   </nav>
   <main>
-    <h1>Quests</h1>
+    <h1 class="page-header quests-header"><span data-i18n="quests.title">Quests</span><img class="header-logo" src="./assets/index/rain_logo.png" alt=""></h1>
 
     <div id="quest-container">
       <!-- Quests will be loaded here -->
