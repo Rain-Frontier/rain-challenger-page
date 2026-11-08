@@ -1,15 +1,15 @@
 const QUEST_FILES = [
   'sd8.json',
   'str2.json',
-  'eb4.json',
-  'psc4.json',
-  'em.json',
-  'durem.json',
   'str4.json',
-  'bf.json',
+  'em.json',
   'gst.json',
+  'bf.json',
   'nsc2.json',
+  'eb4.json',
   'ab4.json',
+  'psc4.json',
+  'durem.json',
 ]
 
 const WEAPON_NAMES = {

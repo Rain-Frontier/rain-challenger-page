@@ -26,10 +26,6 @@
       {
         "tag": "allowed",
         "restriction": "Premium/Tower allowed (g-rank only)"
-      },
-      {
-        "tag": "banned",
-        "restriction": "Evolution/Prayer not allowed"
       }
     ],
     "armor": [

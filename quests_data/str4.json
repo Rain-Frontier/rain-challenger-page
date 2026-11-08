@@ -22,10 +22,6 @@
       {
         "tag": "allowed",
         "restriction": "GR Weapon (Exotic, Gou/Supremacy allowed)"
-      },
-      {
-        "tag": "banned",
-        "restriction": "Premium/Evo/Prayer not allowed"
       }
     ],
     "armor": [

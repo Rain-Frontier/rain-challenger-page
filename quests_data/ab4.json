@@ -16,16 +16,12 @@
       {
         "tag": "partial",
         "restriction": "Partnya only allowed for gunners"
-      },
-      {
-        "tag": "banned",
-        "restriction": "Z Sigil not allowed"
       }
     ],
     "weapon": [
       {
         "tag": "allowed",
-        "restriction": "Zenith"
+        "restriction": "Any"
       }
     ],
     "armor": [
