@@ -1,0 +1,25 @@
+{
+  "quest_type": "<<迎撃>>",
+  "quest_name": "アドバンスバトル4",
+  "restrictions": {
+    "general": [
+      {
+        "tag": "partial",
+        "restriction": "パートニャーはガンナーのみ使用可"
+      }
+    ],
+    "weapon": [
+      {
+        "tag": "allowed",
+        "restriction": "制限なし"
+      }
+    ],
+    "armor": [
+      {
+        "tag": "allowed",
+        "restriction": "制限なし"
+      }
+    ],
+    "skills": []
+  }
+}

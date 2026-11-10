@@ -11,8 +11,9 @@
   <title data-i18n="home.docTitle">Rain Challenger Page</title>
   <link rel="stylesheet" href="./css/style.css">
   <link rel="icon" href="./assets/favicon.ico" type="image/x-icon">
-  <script src="./js/i18n.js" defer></script>
-  <script src="./js/nav.js" defer></script>
+  <script src="./js/i18n.js" defer type="module"></script>
+  <script src="./js/nav.js" defer type="module"></script>
+  <script src="./js/home.js" defer type="module"></script>
 </head>
 
 <body>
@@ -29,9 +30,6 @@
       <ul class="lang-menu" id="lang-menu" hidden>
         <li><button type="button" lang="en" data-lang="en">English</button></li>
         <li><button type="button" lang="ja" data-lang="ja">日本語</button></li>
-        <li><button type="button" lang="fr" data-lang="fr">Français</button></li>
-        <li><button type="button" lang="de" data-lang="de">Deutsch</button></li>
-        <li><button type="button" lang="es" data-lang="es">Español</button></li>
       </ul>
     </div>
   </nav>
@@ -56,41 +54,20 @@
         <div class="panel-divider panel-divider-top" aria-hidden="true"></div>
         <h2 data-i18n="rules.title">Rules</h2>
         <div class="panel-divider" aria-hidden="true"></div>
-        <ul>
-          <li data-i18n="rules.1">Beat all Challenger quests within the time limits Listed on this site's <a href="./quests.html">Quests
-              page</a> or in the <a href="https://discord.com/channels/937230168223789066/1414051861174030346">Discord
-              Channel</a>.</li>
-          <li data-i18n="rules.2">Send all your screenshots at once in this <a
-              href="https://discord.com/channels/937230168223789066/1414057000987267222">Discord channel</a>
-            showing the full chat log <b>(time, player, weapon, date, ref)</b> and your equipment status for each quest.
-          </li>
-          <li data-i18n="rules.3">No Prayer weapons, Tower weapons, Zenith weapons, Evolution weapons, Netcafe weapons, or Premium weapons
-            unless stated otherwise.</li>
-          <li data-i18n="rules.4">Lower-tier gear is included if a higher-tier gear is allowed (Zenith weapons > Supremacy > Exotic > GR
-            weapons).</li>
-          <li data-i18n="rules.5">No Zenith Sigils.</li>
-          <li data-i18n="rules.6">No login boost or halk potions.</li>
-          <li data-i18n="rules.7">No Rastas or quest NPCs (Halks are allowed), unless stated otherwise.</li>
-          <li data-i18n="rules.8">No Secret Tech.</li>
-          <li data-i18n="rules.9">No Prayer Gems.</li>
-          <li data-i18n="rules.10">All quests must be done <b>Solo</b> (no blue friends).</li>
-          <li data-i18n="rules.11">All quests must be completed on the Rain Server.</li>
-          <li data-i18n="rules.12">Any mods or external tools ar prohibited.</li>
-          <li data-i18n="rules.13">Any form of cheating will get you permanently banned.</li>
-        </ul>
-        <p class="callout" data-i18n="rules.callout"><b>Make sure to read the rules specific to each quest before attempting them</b></p>
+        <div id="rules-container">
+          <!-- Rules will be loaded here -->
+        </div>
+        <p class="callout" data-i18n="rules.callout"><b>Make sure to read the rules specific to each quest before
+            attempting them</b></p>
       </section>
 
       <section class="home-rewards panel frame-panel">
         <div class="panel-divider panel-divider-top" aria-hidden="true"></div>
         <h2 data-i18n="rewards.title">Rewards</h2>
         <div class="panel-divider" aria-hidden="true"></div>
-        <ul>
-          <li data-i18n="rewards.1">The <i>Rain Challenger</i> title.</li>
-          <li data-i18n="rewards.2">One exclusive weapon claim.</li>
-          <li data-i18n="rewards.3">100k BC.</li>
-          <li data-i18n="rewards.4">5% discount from the <i>Weekly Market</i>.</li>
-        </ul>
+        <div id="rewards-container">
+          <!-- rewards will be loaded here -->
+        </div>
       </section>
     </div>
   </main>

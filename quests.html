@@ -11,8 +11,10 @@
   <title data-i18n="quests.docTitle">Rain Challenger Quests</title>
   <link rel="stylesheet" href="./css/style.css">
   <link rel="icon" href="./assets/favicon.ico" type="image/x-icon">
-  <script src="./js/i18n.js" defer></script>
-  <script src="./js/nav.js" defer></script>
+  <script src="./js/i18n.js" defer type="module"></script>
+  <script src="./js/nav.js" defer type="module"></script>
+  <script src="./js/quests.js" defer type="module"></script>
+  <script src="./js/utils.js" defer type="module"></script>
 </head>
 
 <body>
@@ -29,20 +31,16 @@
       <ul class="lang-menu" id="lang-menu" hidden>
         <li><button type="button" lang="en" data-lang="en">English</button></li>
         <li><button type="button" lang="ja" data-lang="ja">日本語</button></li>
-        <li><button type="button" lang="fr" data-lang="fr">Français</button></li>
-        <li><button type="button" lang="de" data-lang="de">Deutsch</button></li>
-        <li><button type="button" lang="es" data-lang="es">Español</button></li>
       </ul>
     </div>
   </nav>
   <main>
-    <h1 class="page-header quests-header"><span data-i18n="quests.title">Quests</span><img class="header-logo" src="./assets/index/rain_logo.png" alt=""></h1>
+    <h1 class="page-header quests-header"><span data-i18n="quests.title">Quests</span><img class="header-logo"
+        src="./assets/index/rain_logo.png" alt=""></h1>
 
     <div id="quest-container">
       <!-- Quests will be loaded here -->
     </div>
-
-    <script src="js/quests.js"></script>
   </main>
 </body>
 

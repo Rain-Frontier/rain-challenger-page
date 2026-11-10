@@ -1,0 +1,33 @@
+{
+  "quest_type": "<<迎撃>>",
+  "quest_name": "ゴールデンスパークリングサンダー",
+  "restrictions": {
+    "general": [],
+    "weapon": [
+      {
+        "tag": "allowed",
+        "restriction": "G級武器（遷悠・剛種/覇種 可）"
+      }
+    ],
+    "armor": [
+      {
+        "tag": "allowed",
+        "restriction": "G級防具（遷悠・剛種/覇種 可）"
+      },
+      {
+        "tag": "allowed",
+        "restriction": "Gカフのみ"
+      }
+    ],
+    "skills": [
+      {
+        "tag": "banned",
+        "restriction": "秘伝/Tech 不可"
+      },
+      {
+        "tag": "banned",
+        "restriction": "Solid Determination 不可"
+      }
+    ]
+  }
+}

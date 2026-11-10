@@ -2,13 +2,12 @@
 // Picking a language translates the page through js/i18n.js (loaded before this file);
 // languages without translations show the English text. The choice is remembered in this browser.
 
-const LANG_KEY = "rain-challenger-lang";
-const DEFAULT_LANG = "en";
+export const LANG_KEY = "rain-challenger-lang";
+export const DEFAULT_LANG = "en";
 
-function loadLang() {
+export function loadLang() {
   try {
-    return localStorage.getItem(LANG_KEY) ?? DEFAULT_LANG;
-  } catch {
+    return localStorage.getItem(LANG_KEY) ?? DEFAULT_LANG; } catch {
     // Storage blocked: fall back to the default every time
     return DEFAULT_LANG;
   }

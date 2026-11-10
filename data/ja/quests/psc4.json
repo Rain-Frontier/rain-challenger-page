@@ -1,0 +1,25 @@
+{
+  "quest_type": "<<迎撃>>",
+  "quest_name": "ポジティブソングチャージ4",
+  "restrictions": {
+    "general": [
+      {
+        "tag": "partial",
+        "restriction": "パートニャーはガンナーのみ使用可"
+      }
+    ],
+    "weapon": [
+      {
+        "tag": "allowed",
+        "restriction": "辿異武器 可"
+      }
+    ],
+    "armor": [
+      {
+        "tag": "allowed",
+        "restriction": "制限なし"
+      }
+    ],
+    "skills": []
+  }
+}
