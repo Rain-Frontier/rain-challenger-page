@@ -108,30 +108,29 @@ function toggleCompleted(questId, weapon) {
   return done;
 }
 
+const questContainer = document.getElementById('quest-container');
+questContainer.addEventListener('click', event => {
+  const button = event.target.closest('.weapon-time-limit');
+  if (button) {
+    const done = toggleCompleted(button.dataset.quest, button.dataset.weapon);
+    button.setAttribute('aria-pressed', done);
+  }
+})
+
 async function loadQuests(lang) {
   const quests = await Promise.all(QUEST_FILES.map( filename => {
     return loadQuest(filename, lang);
   }));
 
-  const container = document.getElementById('quest-container');
-  container.replaceChildren();
+  questContainer.replaceChildren();
   quests
     .filter(quest => quest !== null)
     .forEach(quest => {
-      container.appendChild(createQuestCard(quest));
+      questContainer.appendChild(createQuestCard(quest));
     });
 
   // Cards are created after the language was applied: translate their labels now (js/i18n.js)
-  window.RCI18n?.translate(container);
-
-  // One listener for all time limit buttons
-  container.addEventListener('click', event => {
-    const button = event.target.closest('.weapon-time-limit');
-    if (button) {
-      const done = toggleCompleted(button.dataset.quest, button.dataset.weapon);
-      button.setAttribute('aria-pressed', done);
-    }
-  })
+  window.RCI18n?.translate(questContainer);
 }
 
 
@@ -170,11 +169,11 @@ function renderTimeLimits(quest) {
     const name = escapeHTML(WEAPON_NAMES[weapon] ?? weapon);
     return `<button type="button" class="weapon-time-limit"
         data-quest="${md2html(escapeHTML(quest.quest_id))}" data-weapon="${escapeHTML(weapon)}"
-        a)ria-pressed="${isCompleted(quest.quest_id, weapon)}"
+        aria-pressed="${isCompleted(quest.quest_id, weapon)}"
         data-i18n-title="quests.markHint" data-name="${name}"
         title="${name}: click to mark as achieved">
         <img src="${iconPath}${escapeHTML(weapon)}.svg" alt="${name}">
-        <span class="time">${md2html(escapeHTML(time))}</s)pan>
+        <span class="time">${md2html(escapeHTML(time))}</span>
       </button>`
   }).join("");
 }
