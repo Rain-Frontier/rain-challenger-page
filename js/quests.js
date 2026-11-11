@@ -46,14 +46,14 @@ async function loadQuest(filename, lang) {
   try {
     const base = await fetch(basePath + filename);
     if (!base.ok) {
-      throw new Error(`Failed to load ${filename}: ${response.status}`);
+      throw new Error(`Failed to load ${filename}: ${base.status}`);
     }
 
     if (lang === "en") return await base.json()
 
     const overlay = await fetch(path + filename);
     if (!overlay.ok) {
-      throw new Error(`Failed to load ${filename}: ${response.status}`)
+      throw new Error(`Failed to load ${filename}: ${overlay.status}`)
     }
     return merge(await base.json(), await overlay.json() ?? {});
   } catch (error) {
@@ -202,12 +202,11 @@ function renderRestrictionList(title, i18nKey, items = []) {
   }
   const listItems = items.map(item => {
     const tagClass = RESTRICTION_TAGS.includes(item.tag) ? `tag-${item.tag}` : "";
-    // The English text itself is the translation key (js/i18n.js, "restriction.<text>")
     const text = md2html(escapeHTML(item.restriction));
     return `<li class="${tagClass}">${text}</li>`
   }).join("");
   return `<div class="restriction">
-      <h4 data-i18n=${i18nKey}>${title}</h4>
+      <h4 data-i18n="${i18nKey}">${title}</h4>
       <ul>${listItems}</ul>
     </div>`
 }
