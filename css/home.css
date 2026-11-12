@@ -24,27 +24,6 @@
   gap: var(--panel-gap);
 }
 
-.panel {
-  padding: 1.25rem 1.5rem 1.5rem;
-}
-
-.panel h2 {
-  margin: 0 0 0.75rem;
-  padding-bottom: 0.4rem;
-  font-size: 1.3rem;
-  border-bottom: 2px solid rgba(110, 75, 35, 0.35);
-}
-
-.panel p,
-.panel ul {
-  margin: 0;
-  padding: 0.9rem 1.1rem;
-}
-
-.panel ul {
-  padding-left: 2.2rem;
-}
-
 .panel li + li {
   margin-top: 0.4rem;
 }
@@ -59,16 +38,6 @@
   color: var(--gold);
 }
 
-/* "Read the quest rules" reminder at the bottom of the rules */
-.panel .callout {
-  margin-top: 0.75rem;
-  padding: 0.6rem 0.9rem;
-  color: #f6e7c8;
-  background: #5e2617;
-  border-left: 4px solid var(--gold);
-  border-radius: 6px;
-}
-
 /* Framed panels (all three Home panels): no parchment; text sits on a black frosted backdrop.
    Corner ornament (assets/index/navbar.png, 341x128) at half size in the top-left corner of
    the panel box, which is inside the solid part of the backdrop (the fade starts further out). */
@@ -77,7 +46,6 @@
   --backdrop-feather: 14px;  /* width of the soft fade at the backdrop's edges */
   position: relative;
   background: url("../assets/index/navbar.png") top left / 170.5px 64px no-repeat;
-  border: none;
   /* Space between the rectangle edge and the content; the lower divider reuses it */
   --panel-pad-y: 3.5rem;
   padding: var(--panel-pad-y) 3.5rem;
@@ -102,7 +70,7 @@
 /* Frosted backdrop: larger than the panel, 30% black, blurs the page background, and fades
    out over --backdrop-feather at every edge (mask = two crossed gradients). z-index -1
    without a stacking context on the panel keeps it above the page background
-   (body::before) but below the ornaments. */
+   (.bg-image at -2, vignette body::before) but below the ornaments. */
 .frame-panel::before {
   --fade-x: linear-gradient(to right, transparent, #000 var(--backdrop-feather),
       #000 calc(100% - var(--backdrop-feather)), transparent);
@@ -134,8 +102,7 @@
 .frame-panel h2 {
   text-align: center;
   margin: 0;
-  padding: 0;
-  border-bottom: none;
+  font-size: 1.3rem;
 }
 
 /* Divider between the title and the content: navbar2.png (1504x23, full symmetric divider)
@@ -174,11 +141,12 @@
 }
 
 .frame-panel p {
-  padding: 0;
+  margin: 0;
 }
 
-/* Lists sit directly on the backdrop now (no leather box) */
+/* Lists sit directly on the backdrop */
 .frame-panel ul {
+  margin: 0;
   padding: 0 0 0 1.25rem;
 }
 
@@ -206,8 +174,9 @@
   margin: 1.25rem auto 0;
   padding: 1rem 2rem;
   text-align: center;
+  color: #f6e7c8;
   background: #5e2617;
-  border-left: none;
+  border-radius: 6px;
 }
 
 /* Ornaments: top-left (::before) and the same turned 180deg bottom-right (::after),

@@ -3,19 +3,13 @@
 
 :root {
   --bg: #121318;
-  --border: #2f3340;
   --text: #e6e6eb;
   --text-muted: #9a9cab;
-  --radius: 12px;
 
-  /* Parchment theme shared by the quest cards and the home page */
+  /* Quest card colors (--parchment, --ink) and the gold accent used on both pages */
   --parchment: #e8d9b5;
-  --parchment-edge: #a8885a;
   --ink: #3b2a18;
-  --ink-muted: #6b5236;
-  --leather: #4a3624;
   --gold: #e3b260;
-  --inset-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
 
   /* Restriction dot colors (and the achieved time limit green), bright enough for the dark leather */
   --tag-allowed: #5cd65c;
@@ -25,6 +19,10 @@
   /* Page background: raise --bg-brightness to make it brighter, lower --bg-blur to make it sharper */
   --bg-brightness: 0.4;
   --bg-blur: 6px;
+  /* Vignette: darkness of the screen corners (0 = none, 1 = black); --vignette-size = how far
+     from the center the darkening starts */
+  --vignette-strength: 0.7;
+  --vignette-size: 45%;
 }
 
 * {
@@ -39,15 +37,45 @@ body {
   line-height: 1.5;
 }
 
-/* Blurred, dimmed background image behind every page. It's slightly larger than
-   the screen so the blur doesn't leave light edges. */
+/* Blurred, dimmed background image behind every page. Slightly larger than the screen so the
+   blur doesn't leave light edges. */
+.bg-image {
+  position: fixed;
+  top: calc(var(--bg-blur) * -3);
+  left: calc(var(--bg-blur) * -3);
+  width: calc(100% + var(--bg-blur) * 6);
+  height: calc(100% + var(--bg-blur) * 6);
+  /* below the vignette (body::before) and the home panels' frosted backdrops (z-index -1) */
+  z-index: -2;
+  pointer-events: none;
+  background: url("../assets/background_paused.webp") center / cover no-repeat;
+  filter: blur(var(--bg-blur)) brightness(var(--bg-brightness));
+}
+
+/* Vignette over the background image: edges and corners fade to black. Fixed to
+   the window, so it stays in place while the page scrolls. */
 body::before {
   content: "";
   position: fixed;
-  inset: calc(var(--bg-blur) * -3);
+  inset: 0;
   z-index: -1;
-  background: url("../assets/background.webp") center / cover no-repeat;
-  filter: blur(var(--bg-blur)) brightness(var(--bg-brightness));
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent var(--vignette-size),
+      rgba(0, 0, 0, var(--vignette-strength)) 100%);
+}
+
+/* Soft shadow along the bottom edge of the window, over the page content: fixed, so it stays
+   at the bottom while scrolling. Above the quest cards (z-index 1-2), below the navbar (10). */
+body::after {
+  content: "";
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 80px;
+  z-index: 5;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.55));
 }
 
 /* Top bar: page links on the left, language switcher on the right */
@@ -213,6 +241,19 @@ h1 {
   background: url("../assets/index/header.png") center / 100% 100% no-repeat;
 }
 
+/* Title image in the page header (both pages). title.png is design/title.png trimmed to the
+   lettering and scaled to 700x220; width in % of the header so it scales with it (~270px at full size). */
+.header-title {
+  display: block;
+  width: 30%;
+  height: auto;
+  /* Shadow follows the lettering's shape (drop-shadow uses the PNG's transparency) */
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.75));
+  /* Can't be clicked, dragged out or selected, like the Rain Server logo */
+  pointer-events: none;
+  user-select: none;
+}
+
 /* Rain Server logo inside the header, near the right bar. rain_logo.png is 1789x1095 with the
    logo itself at x 58-1649, y 28-900 (rest is transparent margin). Sized/placed in % of the
    header so it scales with it: logo 100px tall at full size, vertically centered, its right
@@ -223,44 +264,14 @@ h1 {
   top: 5.47%;
   height: 105.1%;
   pointer-events: none;
+  user-select: none;
+  /* Same shadow as the title image */
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.75));
 }
 
 /* Phones: smaller title and left gap so it doesn't run into the logo */
 @media (max-width: 700px) {
   .page-header {
-    font-size: 1.5rem;
     padding-left: 4%;
   }
-}
-
-/* Parchment panels: fine paper grain + larger stains (inline SVG noise) over a warm base,
-   with darker, worn edges from the inset shadow */
-.parchment {
-  color: var(--ink);
-  background:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.35 0 0 0 0 0.25 0 0 0 0 0.1 0 0 0 0.22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.012' numOctaves='4' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.3 0 0 0 0 0.1 0 0 0 0.5 -0.12'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)'/%3E%3C/svg%3E"),
-    var(--parchment);
-  border: 1px solid var(--parchment-edge);
-  border-radius: var(--radius);
-  box-shadow:
-    inset 0 0 40px rgba(110, 70, 25, 0.45),
-    0 8px 24px rgba(0, 0, 0, 0.55);
-}
-
-/* Dark leather boxes on top of the parchment, used wherever text needs more contrast */
-.leather {
-  color: var(--parchment);
-  background: var(--leather);
-  border-radius: 8px;
-  box-shadow: var(--inset-shadow);
-}
-
-.leather a {
-  color: var(--gold);
-  font-weight: 600;
-}
-
-.leather a:hover {
-  color: #f2cd8a;
 }

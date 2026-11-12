@@ -1,9 +1,12 @@
 /* Quests page title: same framed header as Home (.page-header in style.css). Home content is
    drawn at zoom 1.2 (home.css), so the same zoom here gives the header the same on-screen size. */
-.quests-header {
+/* (.page-header too: quests.css is @imported at the top of style.css, so a lone .quests-header
+   would lose to .page-header's margin there) */
+.page-header.quests-header {
   zoom: 1.2;
-  /* 100% here would be scaled by the zoom too and overflow narrow screens */
-  width: min(946px, 100% / 1.2);
+  /* Home's whole <main> is zoomed, so its 2rem top padding is 2.4rem on screen; this page's main
+     isn't. The missing 0.4rem goes here, divided by this header's own zoom. */
+  margin-top: calc(0.4rem / 1.2);
 }
 
 /* Cards wrap into rows of 3 (2 on tablets, 1 on phones); an incomplete last row is centered */
@@ -79,6 +82,14 @@
   position: relative;
   width: calc(404 / 440 * 100%);
   margin: calc(17 / 440 * 100%) 0 0 calc(18 / 440 * 100%);
+}
+
+/* Card images (quest picture, weapon icons) can't be right-click saved, dragged out or
+   selected, like the header images. The weapon buttons still get the clicks. */
+.quest-card img {
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 .quest-image {

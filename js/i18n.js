@@ -38,7 +38,6 @@ const TRANSLATIONS = {
 
     "rewards.title": "報酬",
 
-    "quests.title": "クエスト",
     "quests.timeLimits": "制限時間",
     "quests.restrictions": "制限",
     "quests.general": "全般",
