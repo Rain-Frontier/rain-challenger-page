@@ -1,0 +1,29 @@
+{
+  "quest_type": "<<迎撃>>",
+  "quest_name": "エリートバトル4",
+  "restrictions": {
+    "general": [
+      {
+        "tag": "partial",
+        "restriction": "パートニャーはガンナーのみ使用可"
+      }
+    ],
+    "weapon": [
+      {
+        "tag": "allowed",
+        "restriction": "辿異（プレミアム可）"
+      },
+      {
+        "tag": "banned",
+        "restriction": "毒属性MS 不可"
+      }
+    ],
+    "armor": [
+      {
+        "tag": "allowed",
+        "restriction": "制限なし"
+      }
+    ],
+    "skills": []
+  }
+}

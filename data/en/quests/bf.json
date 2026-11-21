@@ -1,37 +1,28 @@
 {
-  "quest_id": "str2",
+  "quest_id": "bf",
   "quest_type": "<<Interception>>",
-  "quest_name": "Separate Their Ranks 2",
-  "img_url": "assets/quest_imgs/str2.webp",
+  "quest_name": "Burning Frost",
+  "img_url": "assets/quest_imgs/bf.webp",
   "time_limits": {
-    "gs": "9:34.XX",
-    "ds": "6:34.XX",
-    "sns": "6:44.XX",
-    "hh": "8:44.XX",
-    "lan": "8:04.XX",
-    "hbg": "16:44.XX"
+    "ls": "15:24.XX",
+    "gs": "12:44.XX",
+    "sns": "12:34.XX",
+    "ham": "15:34.XX",
+    "gl": "19:44.XX",
+    "lbg": "12:14.XX"
   },
   "restrictions": {
-    "general": [
-      {
-        "tag": "partial",
-        "restriction": "Partnya only allowed for gunners"
-      }
-    ],
+    "general": [],
     "weapon": [
       {
         "tag": "allowed",
         "restriction": "GR Weapon (Exotic, Gou/Supremacy allowed)"
-      },
-      {
-        "tag": "banned",
-        "restriction": "Premium or Prayer weapons not allowed"
       }
     ],
     "armor": [
       {
         "tag": "allowed",
-        "restriction": "GR Armor (Exotic, Gou/Supremacy allowed)"
+        "restriction": "GR armor (Exotic, Gou/Supremacy allowed)"
       },
       {
         "tag": "allowed",

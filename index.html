@@ -4,24 +4,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Dark page: the browser paints a dark (not white) canvas while switching pages, before the CSS loads -->
+  <meta name="color-scheme" content="dark">
   <meta http-equiv="Content-Security-Policy"
     content="default-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'">
-  <title>Rain Challenger Page</title>
+  <title data-i18n="home.docTitle">Rain Challenger Page</title>
   <link rel="stylesheet" href="./css/style.css">
   <link rel="icon" href="./assets/favicon.ico" type="image/x-icon">
+  <script src="./js/i18n.js" defer type="module"></script>
+  <script src="./js/nav.js" defer type="module"></script>
+  <script src="./js/home.js" defer type="module"></script>
 </head>
 
 <body>
+  <!-- Blurred, dimmed background image with a vignette (css/style.css) -->
+  <div class="bg-image" aria-hidden="true"></div>
+
   <nav class="navbar">
-    <a href="./index.html">Home</a>
-    <a href="./quests.html">Quests</a>
+    <div class="nav-links">
+      <a href="./index.html" data-i18n="nav.home">Home</a>
+      <a href="./quests.html" data-i18n="nav.quests">Quests</a>
+    </div>
+    <div class="lang-switcher">
+      <button type="button" class="lang-button" aria-haspopup="true" aria-expanded="false" aria-controls="lang-menu">
+        <img src="./assets/index/www.png" alt="" class="lang-icon">
+        <span class="lang-current">English</span>
+      </button>
+      <ul class="lang-menu" id="lang-menu" hidden>
+        <li><button type="button" lang="en" data-lang="en">English</button></li>
+        <li><button type="button" lang="ja" data-lang="ja">日本語</button></li>
+      </ul>
+    </div>
   </nav>
-  <main>
-    <h1>Rain Challenger</h1>
+  <main class="home-page">
+    <h1 class="page-header"><img class="header-title" src="./assets/index/title.png" alt="Rain Challenger"><img class="header-logo" src="./assets/index/rain_logo.png" alt=""></h1>
     <div class="home">
-      <section class="home-intro panel parchment">
-        <h2>What Is Rain Challenger</h2>
-        <p class="leather">
+      <section class="home-intro panel frame-panel">
+        <div class="panel-divider panel-divider-top" aria-hidden="true"></div>
+        <h2 data-i18n="intro.title">What Is Rain Challenger</h2>
+        <div class="panel-divider" aria-hidden="true"></div>
+        <p data-i18n="intro.text">
           Rain Challenger asks you to complete a set of quests
           with certain restricions within a given time. For each quest you can
           choose out of five weapon types to clear it with, similar to how arena
@@ -31,41 +53,24 @@
         </p>
       </section>
 
-      <section class="home-rules panel parchment">
-        <h2>Rules</h2>
-        <ul class="leather">
-          <li>Beat all Challenger quests within the time limits Listed on this site's <a href="./quests.html">Quests
-              page</a> or in the <a href="https://discord.com/channels/937230168223789066/1414051861174030346">Discord
-              Channel</a>.</li>
-          <li>Send all your screenshots at once in this <a
-              href="https://discord.com/channels/937230168223789066/1414057000987267222">Discord channel</a>
-            showing the full chat log <b>(time, player, weapon, date, ref)</b> and your equipment status for each quest.
-          </li>
-          <li>No Prayer weapons, Tower weapons, Zenith weapons, Evolution weapons, Netcafe weapons, or Premium weapons
-            unless stated otherwise.</li>
-          <li>Lower-tier gear is included if a higher-tier gear is allowed (Zenith weapons > Supremacy > Exotic > GR
-            weapons).</li>
-          <li>No Zenith Sigils.</li>
-          <li>No login boost or halk potions.</li>
-          <li>No Rastas or quest NPCs (Halks are allowed), unless stated otherwise.</li>
-          <li>No Secret Tech.</li>
-          <li>No Prayer Gems.</li>
-          <li>All quests must be done <b>Solo</b> (no blue friends).</li>
-          <li>All quests must be completed on the Rain Server.</li>
-          <li>Any mods or external tools ar prohibited.</li>
-          <li>Any form of cheating will get you permanently banned.</li>
-        </ul>
-        <p class="callout leather"><b>Make sure to read the rules specific to each quest before attempting them</b></p>
+      <section class="home-rules panel frame-panel">
+        <div class="panel-divider panel-divider-top" aria-hidden="true"></div>
+        <h2 data-i18n="rules.title">Rules</h2>
+        <div class="panel-divider" aria-hidden="true"></div>
+        <div id="rules-container">
+          <!-- Rules will be loaded here -->
+        </div>
+        <p class="callout" data-i18n="rules.callout"><b>Make sure to read the rules specific to each quest before
+            attempting them</b></p>
       </section>
 
-      <section class="home-rewards panel parchment">
-        <h2>Rewards</h2>
-        <ul class="leather">
-          <li>The <i>Rain Challenger</i> title.</li>
-          <li>One exclusive weapon claim.</li>
-          <li>100k BC.</li>
-          <li>5% discount from the <i>Weekly Market</i>.</li>
-        </ul>
+      <section class="home-rewards panel frame-panel">
+        <div class="panel-divider panel-divider-top" aria-hidden="true"></div>
+        <h2 data-i18n="rewards.title">Rewards</h2>
+        <div class="panel-divider" aria-hidden="true"></div>
+        <div id="rewards-container">
+          <!-- rewards will be loaded here -->
+        </div>
       </section>
     </div>
   </main>

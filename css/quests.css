@@ -1,19 +1,66 @@
+/* Quests page title: same framed header as Home (.page-header in style.css). Home content is
+   drawn at zoom 1.2 (home.css), so the same zoom here gives the header the same on-screen size. */
+/* (.page-header too: quests.css is @imported at the top of style.css, so a lone .quests-header
+   would lose to .page-header's margin there) */
+.page-header.quests-header {
+  zoom: 1.2;
+  /* Home's whole <main> is zoomed, so its 2rem top padding is 2.4rem on screen; this page's main
+     isn't. The missing 0.4rem goes here, divided by this header's own zoom. */
+  margin-top: calc(0.4rem / 1.2);
+}
+
 /* Cards wrap into rows of 3 (2 on tablets, 1 on phones); an incomplete last row is centered */
 #quest-container {
   --gap: 1.5rem;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  /* each card keeps its own height: a taller card (Duremudira) must not stretch the frames
+     of the other cards in its row */
+  align-items: flex-start;
   gap: var(--gap);
 }
 
-/* The parchment look itself comes from the .parchment class in style.css */
+/* Card = frame image assets/index/quest_inter.png (quest_durem.png for Duremudira), 440x750,
+   drawn on top of the quest image as an overlay (::before) so the frame's border and inner
+   shadow cover the image edges; the durem frame also has notched corners and bolts hanging
+   into the window. The card is at least the frame's proportions and grows when the text needs
+   more room (narrow cards, longer translations). Content stays above the frame. */
 .quest-card {
   flex: 0 1 calc((100% - 2 * var(--gap)) / 3);
   min-width: 0;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  position: relative;
+  isolation: isolate;
+  aspect-ratio: 440 / 750;
+  color: var(--ink);
+  /* lets the frame below be sized in cqw (% of the card width) */
+  container-type: inline-size;
+  /* light shadow behind the card; drop-shadow follows the frame's shape (rough edges,
+     transparent corners) where box-shadow would draw a plain rectangle */
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.45));
+}
+
+/* 3-slice so a taller card doesn't misalign the image window: the top 300px of the frame
+   (window + upper band) and the bottom 110px (lower band) keep the frame's proportions
+   (scaled to the card width); only the middle stretches when the card is taller than 440:750. */
+.quest-card::before {
+  --frame-top: calc(300 / 440 * 100cqw);
+  --frame-bottom: calc(110 / 440 * 100cqw);
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-style: solid;
+  border-width: var(--frame-top) 0 var(--frame-bottom);
+  border-image: url("../assets/index/quest_inter.png") 300 0 110 fill /
+    var(--frame-top) 0 var(--frame-bottom) stretch;
+  pointer-events: none;
+}
+
+.quest-card--durem::before {
+  border-image-source: url("../assets/index/quest_durem.png");
 }
 
 @media (max-width: 1250px) {
@@ -28,42 +75,49 @@
   }
 }
 
+/* Quest image fills the frame's window: x 18-422, y 17-242 of the 440x750 frame (window is
+   x 19-420, y 18-240; 1px extra each side hides under the frame border). Vertical margins in %
+   are relative to the card width too, so everything scales with the card. */
 .quest-header {
   position: relative;
+  width: calc(404 / 440 * 100%);
+  margin: calc(17 / 440 * 100%) 0 0 calc(18 / 440 * 100%);
+}
+
+/* Card images (quest picture, weapon icons) can't be right-click saved, dragged out or
+   selected, like the header images. The weapon buttons still get the clicks. */
+.quest-card img {
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 .quest-image {
   display: block;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 404 / 225;
   object-fit: cover;
-  border-bottom: 1px solid var(--parchment-edge);
 }
 
-/* Quest title floats over the bottom-left of the image */
+/* Quest type + name: centered, no background, in the card body just above "Time Limits" */
 .quest-title {
-  position: absolute;
-  left: 0.75rem;
-  bottom: 0.75rem;
-  max-width: calc(100% - 1.5rem);
-  padding: 0.4rem 0.9rem 0.5rem;
-  color: var(--parchment);
-  background: rgba(30, 21, 12, 0.85);
-  backdrop-filter: blur(4px);
-  border: 1px solid rgba(227, 178, 96, 0.35);
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  color: #000;
 }
 
 .quest-body {
-  padding: 0.25rem 1rem 1.25rem;
+  position: relative;
+  z-index: 2;
+  /* sides: frame border is ~20px of 440 */
+  padding: 0 calc(28 / 440 * 100%) 1.25rem;
   container-type: inline-size;
 }
 
 .quest-type {
   margin: 0;
-  color: var(--gold);
-  font-size: 0.75rem;
+  /* 1.5x the old 0.75rem */
+  font-size: 1.125rem;
+  line-height: 1.2;
   font-weight: 600;
   letter-spacing: 0.05em;
 }
@@ -71,13 +125,14 @@
 .quest-name {
   margin: 0;
   font-size: 1.2rem;
-  line-height: 1.25;
+  line-height: 1.15;
 }
 
+/* Section labels ("Time Limits", "Restrictions"): dark red, 1.5x the old 0.75rem */
 .quest-body h3 {
-  margin: 1.25rem 0 0.5rem;
-  color: var(--ink-muted);
-  font-size: 0.75rem;
+  margin: 0.4rem 0 0.25rem;
+  color: #6e1410;
+  font-size: 1.125rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
@@ -90,6 +145,13 @@
   gap: 0.375rem;
 }
 
+/* The quest title starts just under the frame's upper band (band = y 253-285 of the 750px
+   frame; the body starts at y 242, under the image window). .quest-body is the container
+   here, so cqw = % of the body's content width, which is 384/440 of the card. */
+.quest-title {
+  margin-top: calc(50 / 384 * 100cqw);
+}
+
 @container (min-width: 360px) {
   .time-limits {
     grid-template-columns: repeat(var(--weapons), 1fr);
@@ -97,23 +159,26 @@
 }
 
 /* Each time limit is a toggle button; aria-pressed="true" means the time was achieved.
-   Colors and shape come from the .leather class in style.css */
+   Background = assets/index/wp_btn.png (58x58 dark square with a bevel edge), stretched to
+   the button (about 59x50) so the card spacing doesn't change; drawn under the 2px border too. */
 .weapon-time-limit {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.1rem;
   width: 100%;
-  padding: 0.5rem 2px;
+  padding: 0.25rem 2px;
   font: inherit;
+  color: var(--parchment);
+  background: url("../assets/index/wp_btn.png") border-box center / 100% 100% no-repeat;
   border: 2px solid transparent;
   cursor: pointer;
-  transition: background-color 0.15s, border-color 0.15s;
+  transition: background-color 0.15s, border-color 0.15s, filter 0.15s;
 }
 
 .weapon-time-limit:hover {
-  background: #5c4530;
+  filter: brightness(1.6);
 }
 
 .weapon-time-limit:focus-visible {
@@ -128,6 +193,7 @@
 
 .weapon-time-limit[aria-pressed="true"]:hover {
   background: #387d3e;
+  filter: none;
 }
 
 .weapon-time-limit[aria-pressed="true"]::after {
@@ -149,8 +215,8 @@
 }
 
 .weapon-time-limit img {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
 }
 
 .weapon-time-limit .time {
@@ -158,16 +224,25 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* Restrictions: one row per category (label left, list right) on a .leather panel */
+/* Restrictions: one row per category (label left, list right), straight on the card frame,
+   black text */
+.restrictions {
+  color: #000;
+}
+
 .restriction {
   display: grid;
-  grid-template-columns: 4.5rem 1fr;
+  /* label column just wide enough for the longest translated label (German "Fertigkeiten",
+     77px); every px saved here lets restriction lines wrap less */
+  grid-template-columns: 5rem 1fr;
   gap: 0.5rem;
-  padding: 0.5rem 0.75rem;
+  /* tight rows: every quest's restrictions must end above the frame's lower band */
+  padding: 0.1rem 0.4rem;
 }
 
 .restriction + .restriction {
-  border-top: 1px solid rgba(232, 217, 181, 0.12);
+  /* dark line now that the rows sit on the light frame (was a light line on leather) */
+  border-top: 1px solid rgba(0, 0, 0, 0.15);
 }
 
 /* Narrow cards: label above its list */
@@ -181,17 +256,24 @@
 .restriction h4 {
   margin: 0;
   font-size: 0.85rem;
-  color: var(--gold);
+  color: #000;
 }
 
 .restriction ul {
   margin: 0;
   padding-left: 1rem;
   font-size: 0.85rem;
+  line-height: 1.1;
 }
 
 .restriction li + li {
-  margin-top: 0.2rem;
+  margin-top: 0;
+}
+
+/* French lines are the longest and wrap the most: slightly smaller text so they still end
+   above the frames' lower band */
+:lang(fr) .restriction ul {
+  font-size: 0.8rem;
 }
 
 .restriction li::marker {
@@ -209,4 +291,16 @@
 
 .restriction li.tag-banned::marker {
   color: var(--tag-banned);
+}
+
+/* Duremudira's frame has no band under the image: its title is centered in the space between
+   the image (window border ends at y 243 of the frame) and "Time Limits", which stays where it
+   is on the other cards. Total space above + below the title = the other cards' 50/384 cqw
+   + 0.4rem, split evenly (the title's margin starts at y 242, hence the 1/384 difference). */
+.quest-card--durem .quest-title {
+  margin-top: calc(25.5 / 384 * 100cqw + 0.2rem);
+}
+
+.quest-card--durem .quest-title + h3 {
+  margin-top: calc(24.5 / 384 * 100cqw + 0.2rem);
 }

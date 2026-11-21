@@ -1,0 +1,34 @@
+{
+  "quest_type": "<<迎撃>>",
+  "quest_name": "エキゾチックマッドネス",
+  "restrictions": {
+    "general": [
+      {
+        "tag": "partial",
+        "restriction": "パートニャーはガンナーのみ使用可"
+      }
+    ],
+    "weapon": [
+      {
+        "tag": "allowed",
+        "restriction": "辿異武器 可"
+      }
+    ],
+    "armor": [
+      {
+        "tag": "allowed",
+        "restriction": "G級防具（遷悠・剛種/覇種 可）"
+      },
+      {
+        "tag": "allowed",
+        "restriction": "Gカフのみ"
+      }
+    ],
+    "skills": [
+      {
+        "tag": "banned",
+        "restriction": "秘伝/Tech 不可"
+      }
+    ]
+  }
+}

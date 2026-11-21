@@ -1,15 +1,17 @@
+import {escapeHTML, md2html, merge } from "./utils.js"
+
 const QUEST_FILES = [
   'sd8.json',
   'str2.json',
-  'eb4.json',
-  'psc4.json',
-  'em.json',
-  'durem.json',
   'str4.json',
-  'bf.json',
+  'em.json',
   'gst.json',
+  'bf.json',
   'nsc2.json',
+  'eb4.json',
   'ab4.json',
+  'psc4.json',
+  'durem.json',
 ]
 
 const WEAPON_NAMES = {
@@ -32,18 +34,28 @@ const WEAPON_NAMES = {
 // Tags that have a dot color in quests.css; anything else gets the default dot
 const RESTRICTION_TAGS = ["allowed", "partial", "banned"];
 
-const basePath = "./quests_data/";
 const iconPath = "./assets/weapon_icons/";
 
-document.addEventListener('DOMContentLoaded', loadQuests)
+document.addEventListener("langchange", e => {
+  loadQuests(e.detail.lang);
+})
 
-async function loadQuest(filename) {
+async function loadQuest(filename, lang) {
+  const basePath = "./data/en/quests/"
+  var path = `./data/${lang}/quests/`;
   try {
-    const response = await fetch(basePath + filename);
-    if (!response.ok) {
-      throw new Error(`Failed to load ${filename}: ${response.status}`);
+    const base = await fetch(basePath + filename);
+    if (!base.ok) {
+      throw new Error(`Failed to load ${filename}: ${base.status}`);
     }
-    return await response.json();
+
+    if (lang === "en") return await base.json()
+
+    const overlay = await fetch(path + filename);
+    if (!overlay.ok) {
+      throw new Error(`Failed to load ${filename}: ${overlay.status}`)
+    }
+    return merge(await base.json(), await overlay.json() ?? {});
   } catch (error) {
     console.error(error);
     return null;
@@ -96,48 +108,46 @@ function toggleCompleted(questId, weapon) {
   return done;
 }
 
-async function loadQuests() {
-  const quests = await Promise.all(QUEST_FILES.map(loadQuest));
+const questContainer = document.getElementById('quest-container');
+questContainer.addEventListener('click', event => {
+  const button = event.target.closest('.weapon-time-limit');
+  if (button) {
+    const done = toggleCompleted(button.dataset.quest, button.dataset.weapon);
+    button.setAttribute('aria-pressed', done);
+  }
+})
 
-  const container = document.getElementById('quest-container');
+async function loadQuests(lang) {
+  const quests = await Promise.all(QUEST_FILES.map( filename => {
+    return loadQuest(filename, lang);
+  }));
+
+  questContainer.replaceChildren();
   quests
     .filter(quest => quest !== null)
-    .forEach(quest => container.appendChild(createQuestCard(quest)));
+    .forEach(quest => {
+      questContainer.appendChild(createQuestCard(quest));
+    });
 
-  // One listener for all time limit buttons
-  container.addEventListener('click', event => {
-    const button = event.target.closest('.weapon-time-limit');
-    if (button) {
-      const done = toggleCompleted(button.dataset.quest, button.dataset.weapon);
-      button.setAttribute('aria-pressed', done);
-    }
-  })
+  // Cards are created after the language was applied: translate their labels now (js/i18n.js)
+  window.RCI18n?.translate(questContainer);
 }
 
-// Everything from the JSON goes through this before it is put into HTML, so values like
-// "<<Interception>>" aren't parsed as tags and quotes can't break out of attributes
-function escapeHTML(text) {
-  return String(text)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#39;");
-}
 
 function createQuestCard(quest) {
   const card = document.createElement('article');
-  card.className = 'quest-card parchment';
+  // Card frame image (css/quests.css): Duremudira has its own, every other quest the default
+  card.className = quest.quest_id === 'durem' ? 'quest-card quest-card--durem' : 'quest-card';
   card.innerHTML = `
     <div class="quest-header">
       <img src="${escapeHTML(quest.img_url)}" alt="${escapeHTML(quest.quest_name)}" class="quest-image">
-      <div class="quest-title">
-        <p class="quest-type">${escapeHTML(quest.quest_type)}</p>
-        <h2 class="quest-name">${escapeHTML(quest.quest_name)}</h2>
-      </div>
     </div>
     <div class="quest-body">
-      <h3>Time Limits</h3>
+      <div class="quest-title">
+        <p class="quest-type">${md2html(escapeHTML(quest.quest_type))}</p>
+        <h2 class="quest-name">${md2html(escapeHTML(quest.quest_name))}</h2>
+      </div>
+      <h3 data-i18n="quests.timeLimits">Time Limits</h3>
       <div class="time-limits">
         ${renderTimeLimits(quest)}
       </div>
@@ -157,12 +167,13 @@ function createQuestCard(quest) {
 function renderTimeLimits(quest) {
   return Object.entries(quest.time_limits).map(([weapon, time]) => {
     const name = escapeHTML(WEAPON_NAMES[weapon] ?? weapon);
-    return `<button type="button" class="weapon-time-limit leather"
-        data-quest="${escapeHTML(quest.quest_id)}" data-weapon="${escapeHTML(weapon)}"
+    return `<button type="button" class="weapon-time-limit"
+        data-quest="${md2html(escapeHTML(quest.quest_id))}" data-weapon="${escapeHTML(weapon)}"
         aria-pressed="${isCompleted(quest.quest_id, weapon)}"
+        data-i18n-title="quests.markHint" data-name="${name}"
         title="${name}: click to mark as achieved">
         <img src="${iconPath}${escapeHTML(weapon)}.svg" alt="${name}">
-        <span class="time">${escapeHTML(time)}</span>
+        <span class="time">${md2html(escapeHTML(time))}</span>
       </button>`
   }).join("");
 }
@@ -170,31 +181,32 @@ function renderTimeLimits(quest) {
 // Empty or missing lists are left out entirely
 function renderRestrictions(restrictions = {}) {
   const rows = [
-    renderRestrictionList("General", restrictions.general),
-    renderRestrictionList("Weapons", restrictions.weapon),
-    renderRestrictionList("Armor", restrictions.armor),
-    renderRestrictionList("Skills", restrictions.skills)
+    renderRestrictionList("General", "quests.general", restrictions.general),
+    renderRestrictionList("Weapons", "quests.weapons",  restrictions.weapon),
+    renderRestrictionList("Armor", "quests.armor",  restrictions.armor),
+    renderRestrictionList("Skills", "quests.skills",  restrictions.skills)
   ].join("");
 
   if (!rows) {
     return "";
   }
   return `
-    <h3>Restrictions</h3>
-    <div class="restrictions leather">${rows}</div>
+    <h3 data-i18n="quests.restrictions">Restrictions</h3>
+    <div class="restrictions">${rows}</div>
   `
 }
 
-function renderRestrictionList(title, items = []) {
+function renderRestrictionList(title, i18nKey, items = []) {
   if (items.length === 0) {
     return "";
   }
   const listItems = items.map(item => {
     const tagClass = RESTRICTION_TAGS.includes(item.tag) ? `tag-${item.tag}` : "";
-    return `<li class="${tagClass}">${escapeHTML(item.restriction)}</li>`
+    const text = md2html(escapeHTML(item.restriction));
+    return `<li class="${tagClass}">${text}</li>`
   }).join("");
   return `<div class="restriction">
-      <h4>${title}</h4>
+      <h4 data-i18n="${i18nKey}">${title}</h4>
       <ul>${listItems}</ul>
     </div>`
 }

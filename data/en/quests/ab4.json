@@ -1,0 +1,35 @@
+{
+  "quest_id": "ab4",
+  "quest_type": "<<Interception>>",
+  "quest_name": "Advance Battle 4",
+  "img_url": "assets/quest_imgs/ab4.webp",
+  "time_limits": {
+    "ds": "8:44.XX",
+    "ham": "16:44.XX",
+    "hh": "19:44.XX",
+    "hbg": "19:44.XX",
+    "lbg": "12:24.XX",
+    "bow": "12:34.XX"
+  },
+  "restrictions": {
+    "general": [
+      {
+        "tag": "partial",
+        "restriction": "Partnya only allowed for gunners"
+      }
+    ],
+    "weapon": [
+      {
+        "tag": "allowed",
+        "restriction": "Any"
+      }
+    ],
+    "armor": [
+      {
+        "tag": "allowed",
+        "restriction": "Any"
+      }
+    ],
+    "skills": []
+  }
+}

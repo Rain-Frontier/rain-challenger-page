@@ -3,19 +3,13 @@
 
 :root {
   --bg: #121318;
-  --border: #2f3340;
   --text: #e6e6eb;
   --text-muted: #9a9cab;
-  --radius: 12px;
 
-  /* Parchment theme shared by the quest cards and the home page */
+  /* Quest card colors (--parchment, --ink) and the gold accent used on both pages */
   --parchment: #e8d9b5;
-  --parchment-edge: #a8885a;
   --ink: #3b2a18;
-  --ink-muted: #6b5236;
-  --leather: #4a3624;
   --gold: #e3b260;
-  --inset-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
 
   /* Restriction dot colors (and the achieved time limit green), bright enough for the dark leather */
   --tag-allowed: #5cd65c;
@@ -25,6 +19,10 @@
   /* Page background: raise --bg-brightness to make it brighter, lower --bg-blur to make it sharper */
   --bg-brightness: 0.4;
   --bg-blur: 6px;
+  /* Vignette: darkness of the screen corners (0 = none, 1 = black); --vignette-size = how far
+     from the center the darkening starts */
+  --vignette-strength: 0.7;
+  --vignette-size: 45%;
 }
 
 * {
@@ -39,25 +37,67 @@ body {
   line-height: 1.5;
 }
 
-/* Blurred, dimmed background image behind every page. It's slightly larger than
-   the screen so the blur doesn't leave light edges. */
-body::before {
-  content: "";
+/* Blurred, dimmed background image behind every page. Slightly larger than the screen so the
+   blur doesn't leave light edges. */
+.bg-image {
   position: fixed;
-  inset: calc(var(--bg-blur) * -3);
-  z-index: -1;
-  background: url("../assets/background.webp") center / cover no-repeat;
+  top: calc(var(--bg-blur) * -3);
+  left: calc(var(--bg-blur) * -3);
+  width: calc(100% + var(--bg-blur) * 6);
+  height: calc(100% + var(--bg-blur) * 6);
+  /* below the vignette (body::before) and the home panels' frosted backdrops (z-index -1) */
+  z-index: -2;
+  pointer-events: none;
+  background: url("../assets/background_paused.webp") center / cover no-repeat;
   filter: blur(var(--bg-blur)) brightness(var(--bg-brightness));
 }
 
+/* Vignette over the background image: edges and corners fade to black. Fixed to
+   the window, so it stays in place while the page scrolls. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent var(--vignette-size),
+      rgba(0, 0, 0, var(--vignette-strength)) 100%);
+}
+
+/* Soft shadow along the bottom edge of the window, over the page content: fixed, so it stays
+   at the bottom while scrolling. Above the quest cards (z-index 1-2), below the navbar (10). */
+body::after {
+  content: "";
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 80px;
+  z-index: 5;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.55));
+}
+
+/* Top bar: page links on the left, language switcher on the right */
 .navbar {
+  /* Stays at the top of the window while the page scrolls */
+  position: sticky;
+  top: 0;
+  z-index: 10; /* keeps the bar and the language menu above the page content */
   display: flex;
-  justify-content: center;
-  gap: 2rem;
-  padding: 1rem;
+  justify-content: space-between;
+  /* 112px / 1.5 (was 56px originally, then doubled to 112px); content stays centered */
+  align-items: center;
+  min-height: 75px;
+  padding: 0 2rem;
   background: rgba(18, 19, 24, 0.75);
   backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #fff;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
 }
 
 .navbar a {
@@ -68,6 +108,108 @@ body::before {
 
 .navbar a:hover {
   color: var(--text);
+}
+
+/* Language switcher (js/nav.js): globe icon + current language, opens a dropdown menu */
+.lang-switcher {
+  position: relative;
+}
+
+.lang-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.6rem;
+  color: var(--text-muted);
+  font: inherit;
+  font-weight: 600;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.lang-button:hover,
+.lang-button[aria-expanded="true"] {
+  color: var(--text);
+}
+
+.lang-button:focus-visible,
+.lang-menu button:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.lang-icon {
+  width: 20px;
+  height: 20px;
+  opacity: 0.75;
+}
+
+.lang-button:hover .lang-icon,
+.lang-button[aria-expanded="true"] .lang-icon {
+  opacity: 1;
+}
+
+/* Menu drops down under the button, right-aligned with it */
+.lang-menu {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  min-width: 10rem;
+  margin: 0;
+  padding: 0.35rem;
+  list-style: none;
+  background: rgba(18, 19, 24, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
+  animation: lang-menu-open 0.15s ease-out;
+}
+
+.lang-menu[hidden] {
+  display: none;
+}
+
+@keyframes lang-menu-open {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+.lang-menu button {
+  display: block;
+  width: 100%;
+  padding: 0.45rem 0.75rem;
+  color: var(--text-muted);
+  font: inherit;
+  text-align: left;
+  background: none;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.lang-menu button:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Currently selected language */
+.lang-menu button[aria-current="true"] {
+  color: var(--gold);
+}
+
+@media (max-width: 500px) {
+  .navbar {
+    padding: 0 1rem;
+  }
+
+  .nav-links {
+    gap: 1.25rem;
+  }
 }
 
 main {
@@ -81,34 +223,55 @@ h1 {
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
 }
 
-/* Parchment panels: fine paper grain + larger stains (inline SVG noise) over a warm base,
-   with darker, worn edges from the inset shadow */
-.parchment {
-  color: var(--ink);
-  background:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.35 0 0 0 0 0.25 0 0 0 0 0.1 0 0 0 0.22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.012' numOctaves='4' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.3 0 0 0 0 0.1 0 0 0 0.5 -0.12'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)'/%3E%3C/svg%3E"),
-    var(--parchment);
-  border: 1px solid var(--parchment-edge);
-  border-radius: var(--radius);
-  box-shadow:
-    inset 0 0 40px rgba(110, 70, 25, 0.45),
-    0 8px 24px rgba(0, 0, 0, 0.55);
+/* Page title framed by assets/index/header.png (1892x239: two vertical bars at its left and
+   right edges) at half size, centered (both pages); the title sits on the left, just inside
+   the left bar, vertically centered. On narrow screens it shrinks to the content width and
+   keeps its proportions. */
+.page-header {
+  display: grid;
+  align-items: center;
+  justify-items: start;
+  width: min(946px, 100%);
+  aspect-ratio: 1892 / 239;
+  /* left bar is 7.5px wide; gap between bar and title = ~33px */
+  padding-left: 41px;
+  /* Home overrides the space below (home.css); 48px = the same value there */
+  margin: 0 auto 48px;
+  position: relative;
+  background: url("../assets/index/header.png") center / 100% 100% no-repeat;
 }
 
-/* Dark leather boxes on top of the parchment, used wherever text needs more contrast */
-.leather {
-  color: var(--parchment);
-  background: var(--leather);
-  border-radius: 8px;
-  box-shadow: var(--inset-shadow);
+/* Title image in the page header (both pages). title.png is design/title.png trimmed to the
+   lettering and scaled to 700x220; width in % of the header so it scales with it (~270px at full size). */
+.header-title {
+  display: block;
+  width: 30%;
+  height: auto;
+  /* Shadow follows the lettering's shape (drop-shadow uses the PNG's transparency) */
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.75));
+  /* Can't be clicked, dragged out or selected, like the Rain Server logo */
+  pointer-events: none;
+  user-select: none;
 }
 
-.leather a {
-  color: var(--gold);
-  font-weight: 600;
+/* Rain Server logo inside the header, near the right bar. rain_logo.png is 1789x1095 with the
+   logo itself at x 58-1649, y 28-900 (rest is transparent margin). Sized/placed in % of the
+   header so it scales with it: logo 100px tall at full size, vertically centered, its right
+   edge ~33px inside the right bar (mirrors the title's gap on the left). */
+.header-logo {
+  position: absolute;
+  right: 2.61%;
+  top: 5.47%;
+  height: 105.1%;
+  pointer-events: none;
+  user-select: none;
+  /* Same shadow as the title image */
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.75));
 }
 
-.leather a:hover {
-  color: #f2cd8a;
+/* Phones: smaller title and left gap so it doesn't run into the logo */
+@media (max-width: 700px) {
+  .page-header {
+    padding-left: 4%;
+  }
 }

@@ -1,26 +1,31 @@
 {
-  "quest_id": "bf",
-  "quest_type": "<<Interception>>",
-  "quest_name": "Burning Frost",
-  "img_url": "assets/quest_imgs/bf.webp",
+  "quest_id": "durem",
+  "quest_type": "Hunting Road",
+  "quest_name": "2nd District Duremudira",
+  "img_url": "assets/quest_imgs/durem.webp",
   "time_limits": {
-    "ls": "15:24.XX",
-    "gs": "12:44.XX",
-    "sns": "12:34.XX",
-    "ham": "15:34.XX",
-    "gl": "19:44.XX",
-    "lbg": "12:14.XX"
+    "ls": "10:44.XX",
+    "ds": "9:44.XX",
+    "sns": "9:44.XX",
+    "ham": "12:34.XX",
+    "saf": "10:24.XX",
+    "bow": "14:14.XX"
   },
   "restrictions": {
-    "general": [],
+    "general": [
+      {
+        "tag": "partial",
+        "restriction": "Partnya only allowed for gunners"
+      }
+    ],
     "weapon": [
       {
         "tag": "allowed",
         "restriction": "GR Weapon (Exotic, Gou/Supremacy allowed)"
       },
       {
-        "tag": "banned",
-        "restriction": "Premium/Evo/Prayer not allowed"
+        "tag": "allowed",
+        "restriction": "Premium/Tower allowed (g-rank only)"
       }
     ],
     "armor": [

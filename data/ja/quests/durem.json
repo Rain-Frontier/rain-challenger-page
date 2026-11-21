@@ -1,0 +1,42 @@
+{
+  "quest_type": "狩煉道",
+  "quest_name": "第2区 ドゥレムディラ",
+  "restrictions": {
+    "general": [
+      {
+        "tag": "partial",
+        "restriction": "パートニャーはガンナーのみ使用可"
+      }
+    ],
+    "weapon": [
+      {
+        "tag": "allowed",
+        "restriction": "G級武器（遷悠・剛種/覇種 可）"
+      },
+      {
+        "tag": "allowed",
+        "restriction": "プレミアム/塔武器 可（G級のみ）"
+      }
+    ],
+    "armor": [
+      {
+        "tag": "allowed",
+        "restriction": "G級防具（遷悠・剛種/覇種 可）"
+      },
+      {
+        "tag": "allowed",
+        "restriction": "Gカフのみ"
+      }
+    ],
+    "skills": [
+      {
+        "tag": "banned",
+        "restriction": "秘伝/Tech 不可"
+      },
+      {
+        "tag": "banned",
+        "restriction": "Solid Determination 不可"
+      }
+    ]
+  }
+}

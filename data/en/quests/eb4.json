@@ -16,24 +16,12 @@
       {
         "tag": "partial",
         "restriction": "Partnya only allowed for gunners"
-      },
-      {
-        "tag": "banned",
-        "restriction": "Z sigil not allowed"
       }
     ],
     "weapon": [
       {
         "tag": "allowed",
         "restriction": "Zenith (Premium allowed)"
-      },
-      {
-        "tag": "banned",
-        "restriction": "Evo/Tower/Netcafe not allowed"
-      },
-      {
-        "tag": "banned",
-        "restriction": "Prayer not allowed"
       },
       {
         "tag": "banned",
@@ -46,15 +34,6 @@
         "restriction": "Any"
       }
     ],
-    "skills": [
-      {
-        "tag": "banned",
-        "restriction": "Hiden/Tech not allowed"
-      },
-      {
-        "tag": "banned",
-        "restriction": "Solid Determination not allowed"
-      }
-    ]
+    "skills": []
   }
 }

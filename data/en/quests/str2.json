@@ -1,15 +1,15 @@
 {
-  "quest_id": "sd8",
+  "quest_id": "str2",
   "quest_type": "<<Interception>>",
-  "quest_name": "Struggling Duel 8",
-  "img_url": "assets/quest_imgs/sd8.webp",
+  "quest_name": "Separate Their Ranks 2",
+  "img_url": "assets/quest_imgs/str2.webp",
   "time_limits": {
-    "ls": "13:14.XX",
-    "gs": "14:34.XX",
-    "sns": "11:34.XX",
-    "ham": "11:34.XX",
-    "gl": "11:14.XX",
-    "lbg": "11:44.XX"
+    "gs": "9:34.XX",
+    "ds": "6:34.XX",
+    "sns": "6:44.XX",
+    "hh": "8:44.XX",
+    "lan": "8:04.XX",
+    "hbg": "16:44.XX"
   },
   "restrictions": {
     "general": [
@@ -22,10 +22,6 @@
       {
         "tag": "allowed",
         "restriction": "GR Weapon (Exotic, Gou/Supremacy allowed)"
-      },
-      {
-        "tag": "banned",
-        "restriction": "Premium and Prayer not allowed"
       }
     ],
     "armor": [
