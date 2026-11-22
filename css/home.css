@@ -45,10 +45,14 @@
   /* --backdrop-spread (how far the backdrop reaches past the panel) is set on .home-page */
   --backdrop-feather: 14px;  /* width of the soft fade at the backdrop's edges */
   position: relative;
-  background: url("../assets/index/navbar.png") top left / 170.5px 64px no-repeat;
+  background: url("../assets/index/navbar.png") top left / var(--ornament-w) var(--ornament-h) no-repeat;
   /* Space between the rectangle edge and the content; the lower divider reuses it */
   --panel-pad-y: 3.5rem;
-  padding: var(--panel-pad-y) 3.5rem;
+  --panel-pad-x: 3.5rem;
+  /* Corner ornament size (navbar.png at half size); smaller on phones */
+  --ornament-w: 170.5px;
+  --ornament-h: 64px;
+  padding: var(--panel-pad-y) var(--panel-pad-x);
   /* The old parchment text color (--parchment #e8d9b5), a bit lighter for the dark frame */
   color: #f2e6cc;
 }
@@ -60,8 +64,8 @@
   position: absolute;
   right: 0;
   bottom: 0;
-  width: 170.5px;
-  height: 64px;
+  width: var(--ornament-w);
+  height: var(--ornament-h);
   background: url("../assets/index/navbar.png") center / 100% 100% no-repeat;
   transform: rotate(180deg);
   pointer-events: none;
@@ -88,14 +92,27 @@
   mask-composite: intersect;
 }
 
-/* Phones: main only has 16px side padding, so keep the backdrop inside the screen */
+/* Phones and small windows: no 1.2 zoom (it would make everything too big for the screen),
+   less padding so the text gets the width, smaller corner ornaments, and the backdrop kept
+   inside the screen (main only has 16px side padding) */
 @media (max-width: 700px) {
   .home-page {
+    zoom: 1;
+    --panel-gap: 2rem;
     --backdrop-spread: 8px;
   }
 
   .frame-panel {
     --backdrop-feather: 7px;
+    --panel-pad-y: 2.25rem;
+    --panel-pad-x: 1.25rem;
+    --ornament-w: 96px;
+    --ornament-h: 36px;
+  }
+
+  .frame-panel .callout {
+    width: 100%;
+    padding: 1rem 1.25rem;
   }
 }
 
@@ -107,19 +124,20 @@
 
 /* Divider between the title and the content: navbar2.png (1504x23, full symmetric divider)
    at half size, centered on the panel. It spans the full panel width (negative margins cancel
-   the side padding) so it centers on the panel; on narrow panels it shrinks to fit and keeps
-   its proportions. Same space above and below: --divider-gap. */
+   the side padding) so it centers on the panel; on narrow panels only its width shrinks, its
+   height stays 11.5px (half of 23). Max 84% of the panel width (752 of the 900px full-size panel), so narrow panels
+   keep the same space on its left and right as the full-size one. Same space above and below: --divider-gap. */
 .panel-divider {
   --divider-gap: 1rem;
   display: flex;
   justify-content: center;
-  margin: var(--divider-gap) -3.5rem;
+  margin: var(--divider-gap) calc(var(--panel-pad-x) * -1);
 }
 
 .panel-divider::before {
   content: "";
-  width: min(752px, 100%);
-  aspect-ratio: 1504 / 23;
+  width: min(752px, 84%);
+  height: 11.5px;
   background: url("../assets/index/navbar2.png") center / 100% 100% no-repeat;
   /* The divider under the title is flipped upside down */
   transform: scaleY(-1);
