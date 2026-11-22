@@ -63,6 +63,14 @@
   border-image-source: url("../assets/index/quest_durem.png");
 }
 
+/* Phones and small windows: Home drops its zoom there too (home.css), so the headers match */
+@media (max-width: 700px) {
+  .page-header.quests-header {
+    zoom: 1;
+    margin-top: 0;
+  }
+}
+
 @media (max-width: 1250px) {
   .quest-card {
     flex-basis: calc((100% - var(--gap)) / 2);
